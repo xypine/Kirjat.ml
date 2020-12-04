@@ -38,7 +38,7 @@
 </body>
 <footer>
 <template id="cardTemplate">
-	<div class="card text-center col-auto" style="width: 18rem;" data="-1">
+	<div class="card text-center col-auto" style="width: 18%;">
 	  <img class="card-img-top" src="" alt="Ei kuvaa" id="card-img-top">
 	  <div class="card-body" id="card-body">
 		<h5 class="card-title" id="card-title">Card title</h5>
@@ -51,7 +51,7 @@
 			<button type="button" class="btn btn-primary" id="btnNew" onclick="toggleB(this)">Uusi</button>
 			<button type="button" class="btn btn-light" id="btnBlue" onclick="toggleB(this)">Sininen</button>
 			<button type="button" class="btn btn-light" id="btnGreen" onclick="toggleB(this)">Vihreä</button>
-			<button type="button" class="btn btn-danger" id="btnGreen" onclick="toggleB2(this)">-</button>
+			<button type="button" class="btn btn-danger" id="btnSelect" onclick="toggleB2(this)">-</button>
 		</div>
 	  </div>
 	</div>
@@ -91,7 +91,8 @@
 			document.getElementById("results_original").appendChild(htmlToElement('<button class="btn collapsed" style="width: 99%;" data-toggle="collapse" data-target="#collapse' + thing + '">▾' + val.split("\n")[thing] + "▾</button>"));
 			document.getElementById("results_original").appendChild(htmlToElement('<div class="collapse" id="collapse' + thing + '">'));
 			document.getElementById('collapse' + thing + '').appendChild(htmlToElement('<div class="d-flex justify-content-center container-fluid" id="results">'));
-			for(booko in cont.slice(0, results_max)){
+			var first = true;
+			for(booko in cont.slice(0, results_max+1)){
 				var book = cont[booko];
 				var name = book["name"];
 				var id = book["id"];
@@ -101,7 +102,8 @@
 				var conditions = book["conditions"];
 				var price = book["price"];
 				if (price != -1){
-					addCard(name, conditions, prices, image, book);
+					addCard(name, conditions, prices, image, book, first);
+					first = false;
 				}
 			}
 			if(stuff[thing]["err"] != ""){
@@ -122,7 +124,7 @@
 	function countz(arr, t){
 		c = 0;
 		for(var i=0;i<arr.length;i++){
-			if (arr[i]===t){
+			if (arr[i].toLowerCase()===t){
 				c = c + 1;
 			}
 		}
@@ -232,7 +234,7 @@
 	function getQuality(){
 		
 	}
-	function addCard(name, conditions, prices, image, data) {
+	function addCard(name, conditions, prices, image, data, first) {
 		if ('content' in document.createElement('template')) {
 
 			// Instantiate the table with the existing HTML tbody
@@ -269,7 +271,8 @@
 			var btn1 = btns.querySelector("#btnNew");
 			var btn2 = btns.querySelector("#btnBlue");
 			var btn3 = btns.querySelector("#btnGreen");
-			var amount_of_used = countz(conditions, "Käytetty");
+			var btn4 = btns.querySelector("#btnSelect");
+			var amount_of_used = countz(conditions, "käytetty");
 			if (!conditions.includes("Uusi")){
 				btn1.classList.remove("btn-primary");
 				btn1.classList.add("btn-secondary");
@@ -286,6 +289,10 @@
 			}
 
 			tbody.appendChild(clone);
+			if(first === false){
+				toggleB2(btn4);
+				console.log(btn4);
+			}
 
 		} else {
 		  // Find another way to add the rows to the table because 
