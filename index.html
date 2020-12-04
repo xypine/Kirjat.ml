@@ -36,9 +36,9 @@
 	  </div>
 	  <div class="card-footer">
 		<div class="btn-group mr-2" role="group" aria-label="First group" id="buttons">
-			<button type="button" class="btn btn-primary" id="btnNew">Uusi</button>
-			<button type="button" class="btn btn-info" id="btnBlue">Sininen</button>
-			<button type="button" class="btn btn-info" id="btnGreen">Vihreä</button>
+			<button type="button" class="btn btn-primary" id="btnNew" onclick="toggleB(this)">Uusi</button>
+			<button type="button" class="btn btn-dark" id="btnBlue" onclick="toggleB(this)">Sininen</button>
+			<button type="button" class="btn btn-dark" id="btnGreen" onclick="toggleB(this)">Vihreä</button>
 		</div>
 	  </div>
 	</div>
@@ -91,7 +91,25 @@
 		}
 		return c;
 	}
-	function 
+	function toggleB(btn){
+		var btns = btn.parentElement;
+		var btn1 = btns.querySelector("#btnNew");
+		var btn2 = btns.querySelector("#btnBlue");
+		var btn3 = btns.querySelector("#btnGreen");
+		var all = [btn1, btn2, btn3];
+		for (b in all){
+			var bt = all[b];
+			if(!("disabled" in bt.attributes)){
+				bt.classList.remove("btn-dark");
+				bt.classList.remove("btn-primary");
+				bt.classList.remove("btn-secondary");
+				bt.classList.remove("btn-secondary");
+				bt.classList.add("btn-dark");
+			}
+			//"cols" in document.getElementById("input").attributes
+		}
+		btn.classList.add("btn-dark");
+	}
 	function getQuality(){
 		
 	}
@@ -131,13 +149,13 @@
 				btn1.classList.add("btn-secondary");
 			}
 			if ( amount_of_used < 2){
-				btn2.classList.remove("btn-info");
+				btn2.classList.remove("btn-dark");
 				btn2.classList.add("btn-secondary");
 				btn2.setAttribute("disabled", "");
 			}
 			console.log(amount_of_used);
 			if ( amount_of_used < 1){
-				btn3.classList.remove("btn-info");
+				btn3.classList.remove("btn-dark");
 				btn3.classList.add("btn-secondary");
 				btn3.setAttribute("disabled", "");
 			}
