@@ -244,8 +244,33 @@
 		}
 		updatePrice();
 	}
-	function getQuality(){
-		
+	function base64encode(str) {
+	  let encode = encodeURIComponent(str).replace(/%([a-f0-9]{2})/gi, (m, $1) => String.fromCharCode(parseInt($1, 16)))
+	  return btoa(encode)
+	}
+	function setColor(card){
+		console.log(card.data.image);
+		var url = 'https://kirjat-ml.herokuapp.com/api/' + encodeURIComponent("v1_img|" + base64encode(card.data.image));
+		console.log(url);
+		fetch(url)
+		.then(function(response) {
+			response.text().then(function(text) {
+				doneSetColor(text, card);
+			});
+		});
+	}
+	function doneSetColor(b64, card) {
+		var img2 = card.querySelector("#card-img-top");
+		var img = new Image();
+		img.onload = setColorStage2(card, img);
+		img.crossOrigin = "anonymous";  // This enables CORS
+		img.src = b64 + "";
+	}
+	function setColorStage2(card, img){
+		document.body.appendChild(img);
+		var color = getAverageRGB(img);
+		console.log(color);
+		card.style.background = "rgb(" + color.r, + ", " + color.b + ", " + color.g + ")";
 	}
 	function addCard(name, conditions, prices, image, data, first) {
 		if ('content' in document.createElement('template')) {
@@ -279,6 +304,7 @@
 			clone.querySelector("#card-text3").textContent = "" + formatE(prices[0]+"") + "€";
 			var img = clone.querySelector("#card-img-top");
 			img.src = image;
+			setColor(td.parentElement);
 			//var color = getAverageRGB(img);
 			//td.parentElement.style.background = "rgb(" + color.r, + ", " + color.b + ", " + color.g + ")";
 			
@@ -323,7 +349,7 @@
 	//"borrowed" from http://jsfiddle.net/xLF38/818/ :)
 	function getAverageRGB(imgEl) {
 		var blockSize = 5, // only visit every 5 pixels
-			defaultRGB = {r:0,g:0,b:0}, // for non-supporting envs
+			defaultRGB = {r:1,g:0,b:0}, // for non-supporting envs
 			canvas = document.createElement('canvas'),
 			context = canvas.getContext && canvas.getContext('2d'),
 			data, width, height,
@@ -339,12 +365,16 @@
 		height = canvas.height = imgEl.naturalHeight || imgEl.offsetHeight || imgEl.height;
 		width = canvas.width = imgEl.naturalWidth || imgEl.offsetWidth || imgEl.width;
 		
+		//width = Math.max(1, Math.floor(width));
+		//height = Math.max(1, Math.floor(height));
+		
 		context.drawImage(imgEl, 0, 0);
 		
 		try {
 			data = context.getImageData(0, 0, width, height);
 		} catch(e) {
-			/* security error, img on diff domain */alert('x');
+			/* security error, img on diff domain *///alert('x');
+			console.log(e);
 			return defaultRGB;
 		}
 		
