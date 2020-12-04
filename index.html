@@ -17,6 +17,9 @@
 	<div class="d-flex justify-content-center">
 		<h1> Kirjat.ml </h1><br>
 	</div>
+	<div class="text-center">
+		<p style="font-size:92%;" class="text-muted"> MIT-Lisenssin alainen. Domain ja nimi "Kirjat.ml" © Elias Eskelinen 2020. <a href="https://github.com/jonnelafin/Kirjat.ml-simple-frontend/"> Lähdekoodi </a></p>
+	</div>
 	<div class="d-flex justify-content-center">
 		<textarea cols=75 rows=7 placeholder="Bios 1 Elämä ja evoluutio&#10;Geos 1 Maailma muutoksessa&#10;Insights 2&#10;Tekijä Pitkä matematiikka 3&#10;Nos vemos 3" class="" id="input" ></textarea>
 	</div>
@@ -55,10 +58,20 @@
 </template>
 <script>
 	var results_max = 5;
+	function unclean(err){
+		return err.replaceAll("%E4", "ä").replaceAll("%F6", "ö").replaceAll("%E5", "å");
+	}
 	function query() {
 		document.getElementById("results_original").innerHTML = "";
 		var val = document.getElementById("input").value;
 		var lineC = countC(val, "\n");
+		console.log(lineC);
+		if(lineC > 0){
+			if(val[val.size-1] === "\n"){
+				val = val.substring(0, val.size-2);
+			}
+		}
+		console.log(val)
 		document.getElementById("input").rows = Math.min(6, lineC) + 1;
 		let formData = new FormData();
 		formData.append('querym', val);
@@ -90,6 +103,9 @@
 				if (price != -1){
 					addCard(name, conditions, prices, image, book);
 				}
+			}
+			if(stuff[thing]["err"] != ""){
+				document.getElementById("results_original").appendChild(htmlToElement('<h4 class="text-center">' + unclean(stuff[thing]["err"]) + '</h4>'));
 			}
 			document.getElementById("results_original").appendChild(htmlToElement('<br \>'));
 		  }
