@@ -32,6 +32,7 @@
 	  <div class="card-body" id="card-body">
 		<h5 class="card-title" id="card-title">Card title</h5>
 		<p class="card-text" id="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+		<p class="card-text" id="card-text2">Max 10€</p>
 		<a href="#" class="btn btn-primary ">Go somewhere</a>
 	  </div>
 	</div>
@@ -75,6 +76,10 @@
 		  }
 		})();
 	}
+	function formatE(price){
+		var index = price.length - 2;
+		return price.substring(0, index) + "," + price.substring(index);
+	}
 	function addCard(name, conditions, prices, image) {
 		if ('content' in document.createElement('template')) {
 
@@ -88,6 +93,7 @@
 			var td = clone.querySelector("#card-body");
 			td.querySelector("#card-title").textContent = name;
 			td.querySelector("#card-text").textContent = conditions[0];
+			td.querySelector("#card-text2").textContent = "Max " + formatE(prices[0]+"") + "€";
 			var img = clone.querySelector("#card-img-top");
 			img.src = image;
 
