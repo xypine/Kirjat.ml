@@ -22,7 +22,7 @@
 		<button class="btn btn-primary" onclick="query()"> Hae </button>
 	</div>
 	<hr>
-	<div class="d-flex justify-content-center container-fluid " id="results">
+	<div class="container-fluid " id="results_original">
 	</div>
 	<hr>
 	<div class="text-center">
@@ -51,8 +51,9 @@
 	</div>
 </template>
 <script>
+	var results_max = 5;
 	function query() {
-		document.getElementById("results").innerHTML = "";
+		document.getElementById("results_original").innerHTML = "";
 		var val = document.getElementById("input").value;
 		var lineC = countC(val, "\n");
 		document.getElementById("input").rows = Math.min(6, lineC) + 1;
@@ -71,7 +72,10 @@
 		  console.log(stuff);
 		  for(thing in stuff){
 			var cont = stuff[thing]["data"];
-			for(booko in cont){
+			document.getElementById("results_original").appendChild(htmlToElement('<button class="btn collapsed" style="width: 99%;" data-toggle="collapse" data-target="#collapse' + thing + '">▾' + val.split("\n")[thing] + "▾</button>"));
+			document.getElementById("results_original").appendChild(htmlToElement('<div class="collapse" id="collapse' + thing + '">'));
+			document.getElementById('collapse' + thing + '').appendChild(htmlToElement('<div class="d-flex justify-content-center container-fluid" id="results">'));
+			for(booko in cont.slice(0, results_max)){
 				var book = cont[booko];
 				var name = book["name"];
 				var id = book["id"];
@@ -84,11 +88,15 @@
 					addCard(name, conditions, prices, image, book);
 				}
 			}
+			document.getElementById("results_original").appendChild(htmlToElement('<br \>'));
 		  }
 		  updatePrice();
 		})();
 	}
 	function formatE(price){
+		if (price.length < 3){
+			return price+"";
+		}
 		var index = price.length - 2;
 		return price.substring(0, index) + "," + price.substring(index);
 	}
@@ -135,19 +143,24 @@
 		var max = 0;
 		for(i in cards){
 			var card = cards[i];
-			if(card.data && card.data.select){
+			if(card.data){
 				var data = card.data;
 				var price = data.prices[data.prices.length-1-Math.min(data.selected, data.prices.length-1)];
+				if(!card.data.select){
+					price = 0;
+				}
 				card.querySelector("#card-text3").innerHTML = formatE(price+"")+"€";
 				total += price;
-				var mi = 9999999;
-				var ma = 0;
-				for(z in data.prices){
-					mi = Math.min(mi, data.prices[z]);
-					ma = Math.max(ma, data.prices[z]);
+				if(card.data.select){
+					var mi = 9999999;
+					var ma = 0;
+					for(z in data.prices){
+						mi = Math.min(mi, data.prices[z]);
+						ma = Math.max(ma, data.prices[z]);
+					}
+					min += mi;
+					max += ma;
 				}
-				min += mi;
-				max += ma;
 			}
 		}
 		var hintInfo = document.getElementById("finalHinta");
@@ -205,7 +218,8 @@
 
 			// Instantiate the table with the existing HTML tbody
 			// and the row with the template
-			var tbody = document.getElementById("results")
+			var results = document.querySelectorAll("#results");
+			var tbody = results[results.length-1];
 			var template = document.getElementById('cardTemplate');
 
 			// Clone the new row and insert it into the table
@@ -258,6 +272,12 @@
 		  // Find another way to add the rows to the table because 
 		  // the HTML template element is not supported.
 		}
+	}
+	function htmlToElement(html) {
+		var template = document.createElement('template');
+		html = html.trim(); // Never return a text node of whitespace as the result
+		template.innerHTML = html;
+		return template.content.firstChild;
 	}
 </script>
 </footer>
