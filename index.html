@@ -48,6 +48,8 @@
 	function query() {
 		document.getElementById("results").innerHTML = "";
 		var val = document.getElementById("input").value;
+		var lineC = countC(val, "\n");
+		document.getElementById("input").rows = Math.min(6, lineC) + 1;
 		let formData = new FormData();
 		formData.append('querym', val);
 		(async () => {
@@ -91,6 +93,9 @@
 			}
 		}
 		return c;
+	}
+	function countC(string, c){
+		return (string.match(new RegExp(c, "g")) || []).length
 	}
 	function toggleB(btn){
 		var btns = btn.parentElement;
