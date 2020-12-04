@@ -31,10 +31,11 @@
 	  <img class="card-img-top" src="" alt="Ei kuvaa" id="card-img-top">
 	  <div class="card-body" id="card-body">
 		<h5 class="card-title" id="card-title">Card title</h5>
-		<p class="card-text" id="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-		<p class="card-text" id="card-text2">Max 10€</p>
+		<p class="card-text" id="card-text" style="margin-bottom: 0.1rem;">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+		<p class="card-text" id="card-text2" style="font-size:90%">Max 10€</p>
 	  </div>
 	  <div class="card-footer">
+		<p class="card-text" id="card-text3" style="font-size:120%">10€</p>
 		<div class="btn-group mr-2" role="group" aria-label="First group" id="buttons">
 			<button type="button" class="btn btn-primary" id="btnNew" onclick="toggleB(this)">Uusi</button>
 			<button type="button" class="btn btn-dark" id="btnBlue" onclick="toggleB(this)">Sininen</button>
@@ -108,7 +109,8 @@
 			}
 			//"cols" in document.getElementById("input").attributes
 		}
-		btn.classList.add("btn-dark");
+		btn.classList.remove("btn-dark");
+		btn.classList.add("btn-primary");
 	}
 	function getQuality(){
 		
@@ -136,6 +138,7 @@
 			}
 			td.querySelector("#card-text").textContent = conds;
 			td.querySelector("#card-text2").textContent = "Max " + formatE(prices[0]+"") + "€";
+			clone.querySelector("#card-text3").textContent = "" + formatE(prices[0]+"") + "€";
 			var img = clone.querySelector("#card-img-top");
 			img.src = image;
 			
@@ -153,7 +156,6 @@
 				btn2.classList.add("btn-secondary");
 				btn2.setAttribute("disabled", "");
 			}
-			console.log(amount_of_used);
 			if ( amount_of_used < 1){
 				btn3.classList.remove("btn-dark");
 				btn3.classList.add("btn-secondary");
