@@ -24,6 +24,10 @@
 	<hr>
 	<div class="d-flex justify-content-center container-fluid " id="results">
 	</div>
+	<hr>
+	<div class="d-flex justify-content-center">
+		<h3> 0€ In total <h3/>
+	</div>
 </body>
 <footer>
 <template id="cardTemplate">
@@ -40,6 +44,7 @@
 			<button type="button" class="btn btn-primary" id="btnNew" onclick="toggleB(this)">Uusi</button>
 			<button type="button" class="btn btn-dark" id="btnBlue" onclick="toggleB(this)">Sininen</button>
 			<button type="button" class="btn btn-dark" id="btnGreen" onclick="toggleB(this)">Vihreä</button>
+			<button type="button" class="btn btn-danger" id="btnGreen" onclick="toggleB2(this)">-</button>
 		</div>
 	  </div>
 	</div>
@@ -109,13 +114,51 @@
 				bt.classList.remove("btn-dark");
 				bt.classList.remove("btn-primary");
 				bt.classList.remove("btn-secondary");
-				bt.classList.remove("btn-secondary");
 				bt.classList.add("btn-dark");
 			}
 			//"cols" in document.getElementById("input").attributes
 		}
 		btn.classList.remove("btn-dark");
 		btn.classList.add("btn-primary");
+	}
+	var b2_originals = {}
+	function toggleB2(btn){
+		var btns = btn.parentElement;
+		var btn1 = btns.querySelector("#btnNew");
+		var btn2 = btns.querySelector("#btnBlue");
+		var btn3 = btns.querySelector("#btnGreen");
+		var all = [btn1, btn2, btn3];
+		if(btn.classList.contains("btn-danger")){
+			btn.classList.remove("btn-danger");
+			btn.classList.add("btn-success");
+			for (b in all){
+				var bt = all[b];
+				b2_originals[b + btn] = bt.classList + []; //ffs this is just stupid
+				if(!("disabled" in bt.attributes)){
+					bt.classList.remove("btn-dark");
+					bt.classList.remove("btn-primary");
+					bt.classList.remove("btn-secondary");
+					bt.classList.add("btn-secondary");
+				}
+				//"cols" in document.getElementById("input").attributes
+			}
+				
+		}
+		else{
+			btn.classList.remove("btn-success");
+			btn.classList.add("btn-danger");
+			for (b in all){
+				var bt = all[b];
+				if(!("disabled" in bt.attributes)){
+					//bt.classList.remove("btn-secondary");
+					bt.classList.remove("btn-dark");
+					bt.classList.remove("btn-primary");
+					bt.classList.remove("btn-secondary");
+					bt.classList = b2_originals[b + btn];
+				}
+				//"cols" in document.getElementById("input").attributes
+			}
+		}
 	}
 	function getQuality(){
 		
