@@ -72,9 +72,10 @@
 			}
 		}
 		console.log(val)
-		document.getElementById("input").rows = Math.min(6, lineC) + 1;
+		document.getElementById("input").rows = Math.min(7, lineC) + 2;
 		let formData = new FormData();
 		formData.append('querym', val);
+		document.getElementById("results_original").appendChild(htmlToElement('<div class="spinner-border" role="status"><span class="sr-only">Loading...</span></div>'));
 		(async () => {
 		  const rawResponse = await fetch('https://kirjat-ml.herokuapp.com/api/v1', {
 			method: 'POST',
@@ -86,10 +87,19 @@
 
 		  var stuff = content;
 		  console.log(stuff);
+		  var first_outer = true;
 		  for(thing in stuff){
 			var cont = stuff[thing]["data"];
-			document.getElementById("results_original").appendChild(htmlToElement('<button class="btn collapsed" style="width: 99%;" data-toggle="collapse" data-target="#collapse' + thing + '">▾' + val.split("\n")[thing] + "▾</button>"));
-			document.getElementById("results_original").appendChild(htmlToElement('<div class="collapse" id="collapse' + thing + '">'));
+			var collapsed = "collapsed";
+			var collapse = "collapse";
+			var down = "▾";
+			if(first_outer === true){
+				collapsed = "";
+				collapse = "collapse show";
+				down = "▴";
+			}
+			document.getElementById("results_original").appendChild(htmlToElement('<button class="btn ' + collapsed + ' mx-auto border-info m-1" style="width: 99%;font-size:110%;" data-toggle="collapse" data-target="#collapse' + thing + '" onclick="this.innerHTML = this.innerHTML.replaceAll(\'▾\', \'|\').replaceAll(\'▴\', \'▾\').replaceAll(\'|\', \'▴\');">' + down + val.split("\n")[thing] + down + "</button>"));
+			document.getElementById("results_original").appendChild(htmlToElement('<div class="' + collapse + '" id="collapse' + thing + '">'));
 			document.getElementById('collapse' + thing + '').appendChild(htmlToElement('<div class="d-flex justify-content-center container-fluid" id="results">'));
 			var first = true;
 			for(booko in cont.slice(0, results_max+1)){
@@ -110,7 +120,10 @@
 				document.getElementById("results_original").appendChild(htmlToElement('<h4 class="text-center">' + unclean(stuff[thing]["err"]) + '</h4>'));
 			}
 			document.getElementById("results_original").appendChild(htmlToElement('<br \>'));
+			first_outer = false;
 		  }
+		  var resultcont = document.getElementById("results_original");
+		  resultcont.removeChild(resultcont.childNodes[0]); //Remove the spinner
 		  updatePrice();
 		})();
 	}
@@ -266,6 +279,8 @@
 			clone.querySelector("#card-text3").textContent = "" + formatE(prices[0]+"") + "€";
 			var img = clone.querySelector("#card-img-top");
 			img.src = image;
+			//var color = getAverageRGB(img);
+			//td.parentElement.style.background = "rgb(" + color.r, + ", " + color.b + ", " + color.g + ")";
 			
 			var btns = clone.querySelector("#buttons");
 			var btn1 = btns.querySelector("#btnNew");
@@ -304,6 +319,51 @@
 		html = html.trim(); // Never return a text node of whitespace as the result
 		template.innerHTML = html;
 		return template.content.firstChild;
+	}
+	//"borrowed" from http://jsfiddle.net/xLF38/818/ :)
+	function getAverageRGB(imgEl) {
+		var blockSize = 5, // only visit every 5 pixels
+			defaultRGB = {r:0,g:0,b:0}, // for non-supporting envs
+			canvas = document.createElement('canvas'),
+			context = canvas.getContext && canvas.getContext('2d'),
+			data, width, height,
+			i = -4,
+			length,
+			rgb = {r:0,g:0,b:0},
+			count = 0;
+			
+		if (!context) {
+			return defaultRGB;
+		}
+		
+		height = canvas.height = imgEl.naturalHeight || imgEl.offsetHeight || imgEl.height;
+		width = canvas.width = imgEl.naturalWidth || imgEl.offsetWidth || imgEl.width;
+		
+		context.drawImage(imgEl, 0, 0);
+		
+		try {
+			data = context.getImageData(0, 0, width, height);
+		} catch(e) {
+			/* security error, img on diff domain */alert('x');
+			return defaultRGB;
+		}
+		
+		length = data.data.length;
+		
+		while ( (i += blockSize * 4) < length ) {
+			++count;
+			rgb.r += data.data[i];
+			rgb.g += data.data[i+1];
+			rgb.b += data.data[i+2];
+		}
+		
+		// ~~ used to floor values
+		rgb.r = ~~(rgb.r/count);
+		rgb.g = ~~(rgb.g/count);
+		rgb.b = ~~(rgb.b/count);
+		
+		return rgb;
+		
 	}
 </script>
 </footer>
