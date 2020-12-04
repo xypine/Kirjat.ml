@@ -25,8 +25,9 @@
 	<div class="d-flex justify-content-center container-fluid " id="results">
 	</div>
 	<hr>
-	<div class="d-flex justify-content-center">
-		<h3 id="finalHinta"> 0€ In total <h3/>
+	<div class="text-center">
+		<h3 id="finalHinta"> 0€ Yhteensä <h3/>
+		<h4 id="finalHintaSub"> (-) <h4/>
 	</div>
 </body>
 <footer>
@@ -84,6 +85,7 @@
 				}
 			}
 		  }
+		  updatePrice();
 		})();
 	}
 	function formatE(price){
@@ -128,10 +130,30 @@
 	}
 	function updatePrice(){
 		var cards = document.getElementsByClassName("card");
+		var total = 0;
+		var min = 0;
+		var max = 0;
 		for(i in cards){
 			var card = cards[i];
-			var data = card.data;
+			if(card.data && card.data.select){
+				var data = card.data;
+				var price = data.prices[data.prices.length-1-Math.min(data.selected, data.prices.length-1)];
+				card.querySelector("#card-text3").innerHTML = formatE(price+"")+"€";
+				total += price;
+				var mi = 9999999;
+				var ma = 0;
+				for(z in data.prices){
+					mi = Math.min(mi, data.prices[z]);
+					ma = Math.max(ma, data.prices[z]);
+				}
+				min += mi;
+				max += ma;
+			}
 		}
+		var hintInfo = document.getElementById("finalHinta");
+		var hintInfoSub = document.getElementById("finalHintaSub");
+		hintInfo.innerHTML = formatE(total+"")+"€";
+		hintInfoSub.innerHTML = "(" + formatE(min+"") + "€ - " + formatE(max+"") + "€)";
 	}
 	var b2_originals = {}
 	function toggleB2(btn){
