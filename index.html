@@ -2,9 +2,12 @@
 <html>
 <head>
 	<title>Kirjat.ml</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta content="text/html;charset=utf-8" http-equiv="Content-Type">
 	<meta content="utf-8" http-equiv="encoding">
 	<meta charset="UTF-8">
+	
+	<link rel="icon" href="data:;base64,iVBORw0KGgo=">
 	
 	<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
@@ -15,7 +18,7 @@
 		<h1> Kirjat.ml </h1><br>
 	</div>
 	<div class="d-flex justify-content-center">
-		<textarea cols=75 rows=7 placeholder="Kirjoita kirjojen nimet tähän, yksi per rivi" class="" id="input" ></textarea>
+		<textarea cols=75 rows=7 placeholder="Bios 1 Elämä ja evoluutio&#10;Geos 1 Maailma muutoksessa&#10;Insights 2&#10;Tekijä Pitkä matematiikka 3&#10;Nos vemos 3" class="" id="input" ></textarea>
 	</div>
 	<br>
 	<div class="d-flex justify-content-center">
@@ -26,7 +29,7 @@
 	</div>
 	<hr>
 	<div class="text-center">
-		<h3 id="finalHinta"> 0€ Yhteensä <h3/>
+		<h3 id="finalHinta"> Yhteensä 0€ <h3/>
 		<h4 id="finalHintaSub"> (-) <h4/>
 	</div>
 </body>
@@ -43,8 +46,8 @@
 		<p class="card-text" id="card-text3" style="font-size:120%">10€</p>
 		<div class="btn-group mr-2" role="group" aria-label="First group" id="buttons">
 			<button type="button" class="btn btn-primary" id="btnNew" onclick="toggleB(this)">Uusi</button>
-			<button type="button" class="btn btn-dark" id="btnBlue" onclick="toggleB(this)">Sininen</button>
-			<button type="button" class="btn btn-dark" id="btnGreen" onclick="toggleB(this)">Vihreä</button>
+			<button type="button" class="btn btn-light" id="btnBlue" onclick="toggleB(this)">Sininen</button>
+			<button type="button" class="btn btn-light" id="btnGreen" onclick="toggleB(this)">Vihreä</button>
 			<button type="button" class="btn btn-danger" id="btnGreen" onclick="toggleB2(this)">-</button>
 		</div>
 	  </div>
@@ -124,14 +127,14 @@
 			for (b in all){
 				var bt = all[b];
 				if(!("disabled" in bt.attributes)){
-					bt.classList.remove("btn-dark");
+					bt.classList.remove("btn-light");
 					bt.classList.remove("btn-primary");
 					bt.classList.remove("btn-secondary");
-					bt.classList.add("btn-dark");
+					bt.classList.add("btn-light");
 				}
 				//"cols" in document.getElementById("input").attributes
 			}
-			btn.classList.remove("btn-dark");
+			btn.classList.remove("btn-light");
 			btn.classList.add("btn-primary");
 		}
 		updatePrice();
@@ -165,7 +168,7 @@
 		}
 		var hintInfo = document.getElementById("finalHinta");
 		var hintInfoSub = document.getElementById("finalHintaSub");
-		hintInfo.innerHTML = formatE(total+"")+"€";
+		hintInfo.innerHTML = "Yhteensä " + formatE(total+"")+"€";
 		hintInfoSub.innerHTML = "(" + formatE(min+"") + "€ - " + formatE(max+"") + "€)";
 	}
 	var b2_originals = {}
@@ -184,7 +187,7 @@
 				var bt = all[b];
 				b2_originals[b + btn] = bt.classList + []; //ffs this is just stupid
 				if(!("disabled" in bt.attributes)){
-					bt.classList.remove("btn-dark");
+					bt.classList.remove("btn-light");
 					bt.classList.remove("btn-primary");
 					bt.classList.remove("btn-secondary");
 					bt.classList.add("btn-secondary");
@@ -200,7 +203,7 @@
 				var bt = all[b];
 				if(!("disabled" in bt.attributes)){
 					//bt.classList.remove("btn-secondary");
-					bt.classList.remove("btn-dark");
+					bt.classList.remove("btn-light");
 					bt.classList.remove("btn-primary");
 					bt.classList.remove("btn-secondary");
 					bt.classList = b2_originals[b + btn];
