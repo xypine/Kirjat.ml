@@ -22,10 +22,23 @@
 		<button class="btn btn-primary" onclick="query()"> Hae </button>
 	</div>
 	<hr>
+	<div class="d-flex justify-content-center" id="results">
+	</div>
 </body>
 <footer>
+<template id="cardTemplate">
+	<div class="card" style="width: 18rem;">
+	  <img class="card-img-top" src="" alt="Ei kuvaa" id="card-img-top">
+	  <div class="card-body" id="card-body">
+		<h5 class="card-title" id="card-title">Card title</h5>
+		<p class="card-text" id="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+		<a href="#" class="btn btn-primary ">Go somewhere</a>
+	  </div>
+	</div>
+</template>
 <script>
 	function query() {
+		document.getElementById("results").innerHTML = "";
 		var val = document.getElementById("input").value;
 		let formData = new FormData();
 		formData.append('querym', val);
@@ -39,7 +52,52 @@
 		  const content = await rawResponse.json();
 
 		  console.log(content);
+		  var stuff = content;
+		  for(thing in stuff){
+			console.log(thing);
+			var cont = stuff[thing]["data"];
+			console.log("cont: ");
+			console.log(cont);
+			for(booko in cont){
+				var book = cont[booko];
+				var name = book["name"];
+				console.log(name);
+				var id = book["id"];
+				var image = book["image"];
+				var link = book["link"];
+				var prices = book["prices"];
+				var conditions = book["conditions"];
+				var price = book["price"];
+				if (price != -1){
+					addCard(name, conditions, prices, image);
+				}
+			}
+		  }
 		})();
+	}
+	function addCard(name, conditions, prices, image) {
+		if ('content' in document.createElement('template')) {
+
+			// Instantiate the table with the existing HTML tbody
+			// and the row with the template
+			var tbody = document.getElementById("results")
+			var template = document.getElementById('cardTemplate');
+
+			// Clone the new row and insert it into the table
+			var clone = template.content.cloneNode(true);
+			var td = clone.querySelector("#card-body");
+			td.querySelector("#card-title").textContent = name;
+			td.querySelector("#card-text").textContent = conditions[0];
+			var img = clone.querySelector("#card-img-top");
+			//img.src = image;
+
+			tbody.appendChild(clone);
+			console.log(clone);
+
+		} else {
+		  // Find another way to add the rows to the table because 
+		  // the HTML template element is not supported.
+		}
 	}
 </script>
 </footer>
