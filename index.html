@@ -94,7 +94,7 @@
 		document.getElementById("input").rows = Math.min(7, lineC) + 2;
 		let formData = new FormData();
 		formData.append('querym', val);
-		document.getElementById("results_original").appendChild(htmlToElement('<div class="mx-auto text-center"><div class="spinner-border" role="status"><span class="sr-only">Loading...</span></div>Odotetaan vastausta serveriltä... Tässä saattaa kestää hetki jos olet ensimmäinen käyttäjä vähään aikaan.</div>'));
+		document.getElementById("results_original").appendChild(htmlToElement('<div class="mx-auto text-center"><div class="spinner-border" role="status"><span class="sr-only">Loading...</span></div>Odotetaan vastausta palvelimelta... Tässä saattaa kestää hetki jos olet ensimmäinen käyttäjä vähään aikaan.</div>'));
 		(async () => {
 		  const rawResponse = await fetch('https://kirjat-ml.herokuapp.com/api/v1', {
 			method: 'POST',
