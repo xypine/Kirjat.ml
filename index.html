@@ -21,14 +21,15 @@
 		<p style="font-size:92%;" class="text-muted"> MIT-Lisenssin alainen. Nimi ja domain "Kirjat.ml" © Elias Eskelinen 2020. <a href="https://github.com/jonnelafin/Kirjat.ml-simple-frontend/"> Lähdekoodi </a></p>
 	</div>
 	<div class="d-flex justify-content-center">
-		<textarea cols=75 rows=7 placeholder="Bios 1 Elämä ja evoluutio&#10;Geos 1 Maailma muutoksessa&#10;Insights 2&#10;Tekijä Pitkä matematiikka 3&#10;Nos vemos 3" class="" id="input" ></textarea>
+		<textarea cols=75 rows=7 placeholder="Kirjoita kirjojen nimet tähän, yksi per rivi.&#10;Esim:&#10;Bios 1 Elämä ja evoluutio&#10;Geos 1 Maailma muutoksessa&#10;Insights 2&#10;Tekijä Pitkä matematiikka 3&#10;Nos vemos 3" class="" id="input" ></textarea>
 	</div>
 	<div class="text-center">
-		<p style="font-size:92%;" class="text-muted"> Muistathan että haku saattaa toimia paremmin jos et kirjoita koko kirjan ja tekijän nimeä esim. ei "Bios 1 Elämä ja evoluutio, Sanomapro" vaan "Bios 1" :)</p>
+		<p style="font-size:92%;" class="text-muted"> Muistathan että haku saattaa toimia paremmin jos et kirjoita koko kirjan ja tekijän nimeä. <br>Esim. ei "Bios 1 Elämä ja evoluutio, Sanomapro" vaan "Bios 1" :)</p>
 	</div>
 	<br>
-	<div class="d-flex justify-content-center">
+	<div class="text-center">
 		<button class="btn btn-primary" onclick="query()"> Hae </button>
+		<!-- <input type="number"/> Tulosten määrä </input> -->
 	</div>
 	<hr>
 	<div class="container-fluid " id="results_original">
@@ -60,13 +61,14 @@
 	</div>
 </template>
 <script>
-	var results_max = 5;
+	var results_max = 12;
 	function unclean(err){
 		return err.replaceAll("%E4", "ä").replaceAll("%F6", "ö").replaceAll("%E5", "å");
 	}
 	function query() {
 		document.getElementById("results_original").innerHTML = "";
 		var val = document.getElementById("input").value;
+		val = val.replaceAll("\n\n", "\n");
 		var lineC = countC(val, "\n");
 		console.log(lineC);
 		if(lineC > 0){
@@ -270,7 +272,7 @@
 		img.src = b64 + "";
 	}
 	function setColorStage2(card, img){
-		document.body.appendChild(img);
+		//document.body.appendChild(img);
 		var color = getAverageRGB(img);
 		console.log(color);
 		card.style.background = "rgb(" + color.r, + ", " + color.b + ", " + color.g + ")";
