@@ -102,8 +102,8 @@
 				down = "▴";
 			}
 			document.getElementById("results_original").appendChild(htmlToElement('<button class="btn ' + collapsed + ' mx-auto border-info m-1" style="width: 99%;font-size:110%;" data-toggle="collapse" data-target="#collapse' + thing + '" onclick="this.innerHTML = this.innerHTML.replaceAll(\'▾\', \'|\').replaceAll(\'▴\', \'▾\').replaceAll(\'|\', \'▴\');">' + down + ' ' + val.split("\n")[thing] + ' ' + down + "</button>"));
-			document.getElementById("results_original").appendChild(htmlToElement('<div class="' + collapse + '" id="collapse' + thing + '">'));
-			document.getElementById('collapse' + thing + '').appendChild(htmlToElement('<div class="d-flex justify-content-center container-fluid" id="results">'));
+			document.getElementById("results_original").appendChild(htmlToElement('<div class="' + collapse + '  " id="collapse' + thing + '">'));
+			document.getElementById('collapse' + thing + '').appendChild(htmlToElement('<div class="d-flex row flex-row flex-nowrap container-fluid mx-auto" id="results" style="overflow-x: auto;">'));
 			var first = true;
 			for(booko in cont.slice(0, results_max+1)){
 				var book = cont[booko];
