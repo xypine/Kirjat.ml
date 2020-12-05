@@ -136,7 +136,9 @@
 				}
 			}
 			if(stuff[thing]["err"] != ""){
-				document.getElementById("results_original").appendChild(htmlToElement('<h4 class="text-center">' + unclean(stuff[thing]["err"]) + '</h4>'));
+				var results = document.querySelectorAll("#results");
+				var tbody = results[results.length-1];
+				tbody.appendChild(htmlToElement('<h4 class="text-center">' + unclean(stuff[thing]["err"]) + '</h4>'));
 			}
 			document.getElementById("results_original").appendChild(htmlToElement('<br \>'));
 			first_outer = false;
