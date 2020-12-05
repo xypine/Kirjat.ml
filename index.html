@@ -272,7 +272,7 @@
 		img.src = b64 + "";
 	}
 	function setColorStage2(card, img){
-		//document.body.appendChild(img);
+		document.body.appendChild(img);
 		var color = getAverageRGB(img);
 		console.log(color);
 		card.style.background = "rgb(" + color.r, + ", " + color.b + ", " + color.g + ")";
@@ -309,7 +309,7 @@
 			clone.querySelector("#card-text3").textContent = "" + formatE(prices[0]+"") + "€";
 			var img = clone.querySelector("#card-img-top");
 			img.src = image;
-			setColor(td.parentElement);
+			//setColor(td.parentElement);
 			//var color = getAverageRGB(img);
 			//td.parentElement.style.background = "rgb(" + color.r, + ", " + color.b + ", " + color.g + ")";
 			
@@ -337,7 +337,7 @@
 			tbody.appendChild(clone);
 			if(first === false){
 				toggleB2(btn4);
-				console.log(btn4);
+				//console.log(btn4);
 			}
 
 		} else {
@@ -350,6 +350,39 @@
 		html = html.trim(); // Never return a text node of whitespace as the result
 		template.innerHTML = html;
 		return template.content.firstChild;
+	}
+	function linkClean(link){
+		return link.replaceAll("ä", "_a_").replaceAll("ö", "_o_").replaceAll("å", "_e_");
+	}
+	function linkUnClean(link){
+		return link.replaceAll("_a_", "ä").replaceAll("_o_", "ö").replaceAll("_e_", "å");
+	}
+	function bClean(b){
+		return linkClean(b).replaceAll(";", ",").replaceAll("\n", ";");
+	}
+	function bUnClean(b){
+		return linkUnClean(b.replaceAll(";", "\n"));
+	}
+	function genLink(){
+		var val = document.getElementById("input").value;
+		var dict = {};
+		var cards = document.getElementsByClassName("card");
+		for(i in cards){
+			var card = cards[i];
+			if(card.data){
+				var data = card.data;
+			}
+		}
+		var loc = window.location + "";
+		return loc.substring(0,loc.length-1) + "?" + encodeURIComponent(btoa(bClean(val)));
+	}
+	function fromLink(link){
+		var origin = link.split("?")[1];
+		if (origin && origin.length > 1){
+			var val = bUnClean(atob(decodeURIComponent(origin)));
+			return val;
+		}
+		return "";
 	}
 	//"borrowed" from http://jsfiddle.net/xLF38/818/ :)
 	function getAverageRGB(imgEl) {
@@ -400,6 +433,14 @@
 		return rgb;
 		
 	}
+
+	function onEnter(){
+		var stuff_from_link = fromLink(window.location + "");
+		if(stuff_from_link != ""){
+			document.getElementById("input").value = stuff_from_link;
+		}
+	}
+	onEnter();
 </script>
 </footer>
 </html>
