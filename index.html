@@ -389,7 +389,7 @@
 				var data = card.data;
 			}
 		}
-		var loc = window.location + "";
+		var loc = (window.location + "").split("?")[0].replaceAll("?","");
 		return loc.substring(0,loc.length-1) + "?" + encodeURIComponent(btoa(bClean(val)));
 	}
 	function fromLink(link){
