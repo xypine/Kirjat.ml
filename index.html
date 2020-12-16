@@ -8,6 +8,7 @@
 	<meta charset="UTF-8">
 	
 	<link rel="icon" href="data:;base64,iVBORw0KGgo=">
+	<link rel="manifest" href="manifest.json">
 
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
@@ -20,6 +21,7 @@
 	</div>
 	<div class="text-center">
 		<p style="font-size:92%;" class="text-muted"> MIT-Lisenssin alainen. Nimi ja domain "Kirjat.ml" © Elias Eskelinen 2020. <a href="https://github.com/jonnelafin/Kirjat.ml-simple-frontend/"> Lähdekoodi </a></p>
+    	<button class="btn btn-dark add-button">Add to home screen</button>
 	</div>
 	<div class="d-flex justify-content-center">
 		<textarea cols=75 rows=7 onkeyup="fillLink()" onchange="fillLink()" placeholder="Kirjoita kirjojen nimet tähän, yksi per rivi.&#10;Esim:&#10;Bios 1 Elämä ja evoluutio&#10;Geos 1 Maailma muutoksessa&#10;Insights 2&#10;Tekijä Pitkä matematiikka 3&#10;Nos vemos 3" class="" id="input" ></textarea>
@@ -47,6 +49,7 @@
 	        <p id="kop" style="display:none;"> Linkki kopioitu! </p>
 	    </div>
     </div>
+    <br \>
 </body>
 <footer>
 <template id="cardTemplate">
@@ -466,5 +469,6 @@
 	}
 	onEnter();
 </script>
+<script src="install_pwa.js"></script>
 </footer>
 </html>
