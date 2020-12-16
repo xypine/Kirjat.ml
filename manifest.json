@@ -3,8 +3,8 @@
 	"short_name": "Kirjat.ml",
 	"start_url": ".",
 	"display": "standalone",
-	"background_color": "#fff",
 	"theme_color": "#512da8",
+	"background_color": "#fff",
 	"description": "Helppo tapa etsiä lukiokirjoja.",
 	"icons": [{
 	  "src": "icon/icons/mipmap-mdpi/ic_launcher.png",
