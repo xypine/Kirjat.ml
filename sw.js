@@ -14,6 +14,7 @@
 // Names of the two caches used in this version of the service worker.
 // Change to v2, etc. when you update any of the local resources, which will
 // in turn trigger the install event again.
+console.log("Service worker registered.");
 const PRECACHE = 'precache-v1';
 const RUNTIME = 'runtime';
 
@@ -80,17 +81,21 @@ self.addEventListener('fetch', event => {
   }
 });
 */
+/*
 addEventListener("fetch", function(e) {
+  e.request.mode = 'cors';
   e.respondWith((async function() {
     const cachedResponse = await caches.match(e.request);
     if (cachedResponse) {
       return cachedResponse;
     }
-
     const networkResponse = await fetch(e.request);
 
     const hosts = [
       API_URL,
+      'kauppa.jamera.net',
+      'https://cdnjs.cloudflare.com/',
+      'https://kirjat-ml.herokuapp.com',
     ];
 
     if (hosts.some((host) => e.request.url.startsWith(host))) {
@@ -98,7 +103,7 @@ addEventListener("fetch", function(e) {
       const clonedResponse = networkResponse.clone();
 
       e.waitUntil((async function() {
-        const cache = await caches.open(CACHE_NAME);
+        const cache = await caches.open(RUNTIME);
         // This will be called after `return networkResponse`
         // so make sure you already have the clone!
         await cache.put(e.request, clonedResponse);
@@ -107,4 +112,26 @@ addEventListener("fetch", function(e) {
 
     return networkResponse;
   })());
+});
+*/
+self.addEventListener('fetch', function(event) {
+  event.respondWith(
+    caches.match(event.request)
+    .then((response)=>{
+      if(response){
+        return response;
+      }
+      else{
+        return fetch(event.request) // response of requests
+        .then((res)=>{
+          return caches.open('dynamic') //create dynamic cache
+          .then((cache)=>{
+            cache.put(event.request.url,res.clone());
+            return res;
+          })
+        })
+      }
+    })
+    .catch(()=>{})
+  )
 });
