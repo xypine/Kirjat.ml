@@ -26,6 +26,11 @@ const PRECACHE_URLS = [
   //'demo.js'
 ];
 
+//#Start jf 2020
+//The api url
+const API_URL = 'https://kirjat-ml.herokuapp.com';
+
+//End jf 2020
 // The install handler takes care of precaching the resources we always need.
 self.addEventListener('install', event => {
   event.waitUntil(
@@ -52,9 +57,10 @@ self.addEventListener('activate', event => {
 // The fetch handler serves responses for same-origin resources from a cache.
 // If no response is found, it populates the runtime cache with the response
 // from the network before returning it to the page.
+/*
 self.addEventListener('fetch', event => {
   // Skip cross-origin requests, like those for Google Analytics.
-  if (event.request.url.startsWith(self.location.origin)) {
+  if (event.request.url.startsWith(self.location.origin) /*|| event.request.url.startsWith(API_URL)\*\/) {
     event.respondWith(
       caches.match(event.request).then(cachedResponse => {
         if (cachedResponse) {
@@ -72,4 +78,33 @@ self.addEventListener('fetch', event => {
       })
     );
   }
+});
+*/
+addEventListener("fetch", function(e) {
+  e.respondWith((async function() {
+    const cachedResponse = await caches.match(e.request);
+    if (cachedResponse) {
+      return cachedResponse;
+    }
+
+    const networkResponse = await fetch(e.request);
+
+    const hosts = [
+      API_URL,
+    ];
+
+    if (hosts.some((host) => e.request.url.startsWith(host))) {
+      // This clone() happens before `return networkResponse` 
+      const clonedResponse = networkResponse.clone();
+
+      e.waitUntil((async function() {
+        const cache = await caches.open(CACHE_NAME);
+        // This will be called after `return networkResponse`
+        // so make sure you already have the clone!
+        await cache.put(e.request, clonedResponse);
+      })());
+    }
+
+    return networkResponse;
+  })());
 });
