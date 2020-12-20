@@ -80,10 +80,22 @@
 		return err.replaceAll("%E4", "ä").replaceAll("%F6", "ö").replaceAll("%E5", "å");
 	}
 	function fillLink(){
+		var org = document.getElementById("results_original").innerHTML;
+		var empty = false;
 		var val = genLink();
+		if(val.includes("?WyIiLDEsW10sW11d")){
+			val = window.location.href.split("?")[0];
+			empty = true;
+		}
 		document.getElementById('kop').style.display='none';
 		document.getElementById("linkki").value = val;
-		window.history.replaceState('Object', 'Title', "?" + val.split("?")[1]);
+
+		if(empty){
+			window.history.replaceState('Object', 'Title', "");
+		}
+		else{
+			window.history.replaceState('Object', 'Title', "?" + val.split("?")[1]);
+		}
 	}
 	function query(callback){
 		queryFull(()=>{});
