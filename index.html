@@ -83,6 +83,7 @@
 		var val = genLink();
 		document.getElementById('kop').style.display='none';
 		document.getElementById("linkki").value = val;
+		window.history.replaceState('Object', 'Title', "?" + val.split("?")[1]);
 	}
 	function query(callback){
 		queryFull(()=>{});
@@ -540,13 +541,24 @@
 	function onEnter(){
 		var stuff_from_link = fromLink(window.location + "");
 		if(stuff_from_link != ""){
-			var p = JSON.parse(stuff_from_link);
-			document.getElementById("input").value = p[0];
-			console.log("Received lenght = " + p[1]);
-			console.log("Enabled: " + p[2])
-			enabled = p[2];
-			selec = p[3];
-			queryFull(afterLoad);
+			try{
+				var p = JSON.parse(stuff_from_link);
+				if (p[0] != ""){
+					document.getElementById("input").value = p[0];
+					console.log("Received lenght = " + p[1]);
+					console.log("Enabled: " + p[2])
+					enabled = p[2];
+					selec = p[3];
+					if(p[1] > 1){
+						queryFull(afterLoad);
+					}
+				}
+			}
+			catch{
+				var val = stuff_from_link;
+				document.getElementById("input").value = val;
+				query();
+			}
 		}
 		updatePrice();
 		fillLink();
