@@ -46,7 +46,7 @@
 				<h3 id="finalHinta" class="card-title"> Yhteensä 0€ <h3/>
 				<h4 id="finalHintaSub"> <h4/>
 			</div>
-	        <p class="card-description">Alta voit kopioda linkin tähän hakuun:</p> <input type="text" id="linkki" class="form-control" value="hello">
+	        <p class="card-description">Alta voit kopioda linkin tähän hakuun:</p> <input type="text" id="linkki" class="form-control" value="https://kirjat.ml/">
 	        <div class="mt-3"> <button type="button" onclick="document.getElementById('kop').style.display='';" class="btn btn-info btn-clipboard" data-clipboard-action="copy" data-clipboard-target="#linkki">Kopio Linkki</button>  </div>
 	        <p id="kop" style="display:none;"> Linkki kopioitu! </p>
 	    </div>
@@ -91,7 +91,7 @@
 		document.getElementById("linkki").value = val;
 
 		if(empty){
-			window.history.replaceState('Object', 'Title', "");
+			window.history.replaceState('Object', 'Title', "/");
 		}
 		else{
 			window.history.replaceState('Object', 'Title', "?" + val.split("?")[1]);
@@ -551,29 +551,36 @@
 	var enabled = [];
 	var selec = [];
 	function onEnter(){
-		var stuff_from_link = fromLink(window.location + "");
-		if(stuff_from_link != ""){
-			try{
-				var p = JSON.parse(stuff_from_link);
-				if (p[0] != ""){
-					document.getElementById("input").value = p[0];
-					console.log("Received lenght = " + p[1]);
-					console.log("Enabled: " + p[2])
-					enabled = p[2];
-					selec = p[3];
-					if(p[1] > 1){
-						queryFull(afterLoad);
+		try{
+			var stuff_from_link = fromLink(window.location + "");
+			if(stuff_from_link != ""){
+				try{
+					var p = JSON.parse(stuff_from_link);
+					if (p[0] != ""){
+						document.getElementById("input").value = p[0];
+						console.log("Received lenght = " + p[1]);
+						console.log("Enabled: " + p[2])
+						enabled = p[2];
+						selec = p[3];
+						if(p[1] > 1){
+							queryFull(afterLoad);
+						}
 					}
 				}
+				catch{
+					var val = stuff_from_link;
+					document.getElementById("input").value = val;
+					query();
+				}
 			}
-			catch{
-				var val = stuff_from_link;
-				document.getElementById("input").value = val;
-				query();
-			}
+			updatePrice();
+			fillLink();
 		}
-		updatePrice();
-		fillLink();
+		catch{
+			window.history.replaceState('Object', 'Title', "/");
+			document.getElementById('kop').style.display='none';
+			document.getElementById("linkki").value = window.location + "";
+		}
 	}
 	onEnter();
 </script>
