@@ -26,7 +26,7 @@
     	<button class="btn btn-dark add-button">Add to home screen</button>
 	</div>
 	<div class="d-flex justify-content-center">
-		<textarea cols=75 rows=7 onkeyup="fillLink()" onchange="fillLink()" placeholder="Kirjoita kirjojen nimet tähän, yksi per rivi.&#10;Esim:&#10;Bios 1 Elämä ja evoluutio&#10;Geos 1 Maailma muutoksessa&#10;Insights 2&#10;Tekijä Pitkä matematiikka 3&#10;Nos vemos 3" class="" id="input" ></textarea>
+		<textarea cols=75 rows=7 onkeyup="typing()" onchange="typing()" placeholder="Kirjoita kirjojen nimet tähän, yksi per rivi.&#10;Esim:&#10;Bios 1 Elämä ja evoluutio&#10;Geos 1 Maailma muutoksessa&#10;Insights 2&#10;Tekijä Pitkä matematiikka 3&#10;Nos vemos 3" class="" id="input" ></textarea>
 	</div>
 	<div class="text-center">
 		<p style="font-size:92%;" class="text-muted"> Haku saattaa toimia paremmin jos et kirjoita koko kirjan ja tekijän nimeä. <br>Esim. ei "Bios 1 Elämä ja evoluutio, Sanomapro" vaan "Bios 1" :)</p>
@@ -76,6 +76,17 @@
 <script>
 	var results_max = 12;
 	var pwa_enabled = false;
+	function typing() {
+		var val = document.getElementById("input").value;
+		val = val.replaceAll("\n\n", "\n");
+		var lineC = countC(val, "\n");
+		console.log(lineC);
+		if(lineC < 1){
+			lineC = 7;
+		}
+		document.getElementById("input").rows = Math.min(7, lineC) + 2;
+		fillLink();
+	}
 	function unclean(err){
 		return err.replaceAll("%E4", "ä").replaceAll("%F6", "ö").replaceAll("%E5", "å");
 	}
@@ -108,8 +119,8 @@
 		var lineC = countC(val, "\n");
 		console.log(lineC);
 		if(lineC > 0){
-			if(val[val.size-1] === "\n"){
-				val = val.substring(0, val.size-2);
+			if(val[val.length-1] === "\n"){
+				val = val.substring(0, val.length-2);
 			}
 		}
 		console.log(val)
