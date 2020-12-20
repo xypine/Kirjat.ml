@@ -84,7 +84,10 @@
 		document.getElementById('kop').style.display='none';
 		document.getElementById("linkki").value = val;
 	}
-	function query() {
+	function query(callback){
+		queryFull(()=>{});
+	}
+	function queryFull(callback) {
 		fillLink();
 		document.getElementById("results_original").innerHTML = "";
 		var val = document.getElementById("input").value;
@@ -137,7 +140,7 @@
 				var conditions = book["conditions"];
 				var price = book["price"];
 				if (price != -1){
-					addCard(name, conditions, prices, image, book, first);
+					addCardFull(name, conditions, prices, image, book, first, id, callback);
 					first = false;
 				}
 			}
@@ -153,6 +156,8 @@
 		  resultcont.removeChild(resultcont.childNodes[0]); //Remove the spinner
 		  updatePrice();
 		})();
+		fillLink();
+		callback();
 	}
 	function formatE(price){
 		if (price.length < 3){
@@ -237,6 +242,7 @@
 		var hintInfoSub = document.getElementById("finalHintaSub");
 		hintInfo.innerHTML = "Yhteensä " + formatE(total+"")+"€";
 		hintInfoSub.innerHTML = "(" + formatE(min+"") + "€ - " + formatE(max+"") + "€)";
+		fillLink();
 	}
 	var b2_originals = {}
 	function toggleB2(btn){
@@ -307,7 +313,10 @@
 		console.log(color);
 		card.style.background = "rgb(" + color.r, + ", " + color.b + ", " + color.g + ")";
 	}
-	function addCard(name, conditions, prices, image, data, first) {
+	function addCard(name, conditions, prices, image, data, first, id){
+		addCardFull(name, conditions, prices, image, data, first, id, ()=>{});
+	}
+	function addCardFull(name, conditions, prices, image, data, first, id, callback) {
 		if ('content' in document.createElement('template')) {
 
 			// Instantiate the table with the existing HTML tbody
@@ -322,6 +331,7 @@
 			
 			data.selected = 0;
 			data.select = true;
+			data.id = id;
 			td.parentElement.data = data;
 			
 			td.querySelector("#card-title").textContent = name;
@@ -374,6 +384,7 @@
 		  // Find another way to add the rows to the table because 
 		  // the HTML template element is not supported.
 		}
+		callback();
 	}
 	function htmlToElement(html) {
 		var template = document.createElement('template');
@@ -393,18 +404,30 @@
 	function bUnClean(b){
 		return linkUnClean(b.replaceAll(";", "\n"));
 	}
+	var selec2 = []
 	function genLink(){
 		var val = document.getElementById("input").value;
 		var dict = {};
 		var cards = document.getElementsByClassName("card");
+		var s = cards.length;
+		var enabled = [];
+		var selectd = [];
+		var ind = 0;
 		for(i in cards){
 			var card = cards[i];
 			if(card.data){
 				var data = card.data;
+				if(data.select){
+					enabled.push(data.id);
+					selectd.push(data.selected);
+				}
 			}
+			ind += 1;
 		}
+		selec2 = selectd;
 		var loc = (window.location + "").split("?")[0].replaceAll("?","");
-		return loc.substring(0,loc.length-1) + "?" + encodeURIComponent(btoa(bClean(val)));
+		var json = JSON.stringify([val, s, enabled, selectd]);
+		return loc.substring(0,loc.length-1) + "?" + encodeURIComponent(btoa(bClean(json)));
 	}
 	function fromLink(link){
 		var origin = link.split("?")[1];
@@ -471,11 +494,61 @@
 	
 	});
 
+	function afterLoad(){
+		var cards = document.getElementsByClassName("card");
+		var ind = 0;
+		for(i in cards){
+			var card = cards[i];
+			if(card.data){
+				var data = card.data;
+				//data.select = enabled.includes(data.id);
+				data.select = false;
+				data.selected = selec[ind];
+				var btns = card.querySelector("#buttons");
+				var btn = btns.querySelector("#btnSelect");
+				var btn1 = btns.querySelector("#btnNew");
+				var btn2 = btns.querySelector("#btnBlue");
+				var btn3 = btns.querySelector("#btnGreen");
+				var all = [btn1, btn2, btn3];
+				/*
+				for (b in all){
+					var bt = all[b];
+					b2_originals[b + btn] = ["btn btn-light"];
+				}*/
+				
+				btn.classList.remove("btn-danger");
+				btn.classList.remove("btn-success");
+				btn.classList.add("btn-danger");
+				if(enabled.includes(data.id)){
+					toggleB2(btn);
+					ind += 1;
+				}
+				else{
+					btn.classList.remove("btn-danger");
+					btn.classList.add("btn-success");
+					toggleB2(btn);
+					
+				}
+				data.select = enabled.includes(data.id);
+				toggleB(all[data.selected]);
+				//toggleB2(btn);
+			}
+		}
+	}
+	var enabled = [];
+	var selec = [];
 	function onEnter(){
 		var stuff_from_link = fromLink(window.location + "");
 		if(stuff_from_link != ""){
-			document.getElementById("input").value = stuff_from_link;
+			var p = JSON.parse(stuff_from_link);
+			document.getElementById("input").value = p[0];
+			console.log("Received lenght = " + p[1]);
+			console.log("Enabled: " + p[2])
+			enabled = p[2];
+			selec = p[3];
+			queryFull(afterLoad);
 		}
+		updatePrice();
 		fillLink();
 	}
 	onEnter();
