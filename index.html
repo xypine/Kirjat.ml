@@ -68,7 +68,7 @@
 			<button type="button" class="btn btn-primary" id="btnNew" onclick="toggleB(this)">Uusi</button>
 			<button type="button" class="btn btn-light" id="btnBlue" onclick="toggleB(this)">Sininen</button>
 			<button type="button" class="btn btn-light" id="btnGreen" onclick="toggleB(this)">Vihreä</button>
-			<button type="button" class="btn btn-danger" id="btnSelect" onclick="toggleB2(this)">-</button>
+			<button type="button" class="btn btn-success" id="btnSelect" onclick="toggleB2(this)">-</button>
 		</div>
 	  </div>
 	</div>
@@ -246,26 +246,10 @@
 		var btn3 = btns.querySelector("#btnGreen");
 		var all = [btn1, btn2, btn3];
 		var card = btns.parentElement.parentElement;
-		card.data.select = !btn.classList.contains("btn-danger");
+		card.data.select = btn.classList.contains("btn-danger");
 		if(btn.classList.contains("btn-danger")){
 			btn.classList.remove("btn-danger");
 			btn.classList.add("btn-success");
-			for (b in all){
-				var bt = all[b];
-				b2_originals[b + btn] = bt.classList + []; //ffs this is just stupid
-				if(!("disabled" in bt.attributes)){
-					bt.classList.remove("btn-light");
-					bt.classList.remove("btn-primary");
-					bt.classList.remove("btn-secondary");
-					bt.classList.add("btn-secondary");
-				}
-				//"cols" in document.getElementById("input").attributes
-			}
-				
-		}
-		else{
-			btn.classList.remove("btn-success");
-			btn.classList.add("btn-danger");
 			for (b in all){
 				var bt = all[b];
 				if(!("disabled" in bt.attributes)){
@@ -274,6 +258,21 @@
 					bt.classList.remove("btn-primary");
 					bt.classList.remove("btn-secondary");
 					bt.classList = b2_originals[b + btn];
+				}
+				//"cols" in document.getElementById("input").attributes
+			}
+		}
+		else{
+			btn.classList.remove("btn-success");
+			btn.classList.add("btn-danger");
+			for (b in all){
+				var bt = all[b];
+				b2_originals[b + btn] = bt.classList + []; //ffs this is just stupid
+				if(!("disabled" in bt.attributes)){
+					bt.classList.remove("btn-light");
+					bt.classList.remove("btn-primary");
+					bt.classList.remove("btn-secondary");
+					bt.classList.add("btn-secondary");
 				}
 				//"cols" in document.getElementById("input").attributes
 			}
