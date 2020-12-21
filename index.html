@@ -107,13 +107,15 @@
 		}
 		document.getElementById('kop').style.display='none';
 		document.getElementById("linkki").value = val;
-
-		if(empty){
-			window.history.replaceState('Object', 'Title', "/");
+		try{
+			if(empty){
+				window.history.replaceState('Object', 'Title', "/");
+			}
+			else{
+				window.history.replaceState('Object', 'Title', "?" + val.split("?")[1]);
+			}
 		}
-		else{
-			window.history.replaceState('Object', 'Title', "?" + val.split("?")[1]);
-		}
+		catch{}
 	}
 	function query(callback){
 		queryFull(()=>{});
@@ -442,7 +444,7 @@
 		var cards = document.getElementsByClassName("card");
 		var s = cards.length;
 		var enabled = [];
-		var selectd = [];
+		var selectd = {};
 		var ind = 0;
 		for(i in cards){
 			var card = cards[i];
@@ -450,7 +452,7 @@
 				var data = card.data;
 				if(data.select){
 					enabled.push(data.id);
-					selectd.push(data.selected);
+					selectd[data.id] = data.selected;
 				}
 			}
 			ind += 1;
@@ -528,13 +530,14 @@
 	function afterLoad(){
 		var cards = document.getElementsByClassName("card");
 		var ind = 0;
+		var used = [];
 		for(i in cards){
 			var card = cards[i];
 			if(card.data){
 				var data = card.data;
 				//data.select = enabled.includes(data.id);
 				data.select = false;
-				data.selected = selec[ind];
+				data.selected = selec[data.id];
 				var btns = card.querySelector("#buttons");
 				var btn = btns.querySelector("#btnSelect");
 				var btn1 = btns.querySelector("#btnNew");
@@ -550,7 +553,7 @@
 				btn.classList.remove("btn-danger");
 				btn.classList.remove("btn-success");
 				btn.classList.add("btn-danger");
-				if(enabled.includes(data.id)){
+				if(enabled.includes(data.id) && !used.includes(card.id)){
 					toggleB2(btn);
 					ind += 1;
 				}
@@ -561,13 +564,23 @@
 					
 				}
 				data.select = enabled.includes(data.id);
-				toggleB(all[data.selected]);
-				//toggleB2(btn);
+				if(data.select){
+					data.selected = selec[data.id];
+					try{
+						toggleB(all[data.selected]);
+					}
+					catch{
+						console.log("Couldn't toggle the button " + all[data.selected] + ", index " + data.selected + " indnd " + ind + " all: " + all + " selec " + selec + " id " + data.id);
+						loadingErrors = true;
+					}
+				}
+				//toggleB2(btn); 
 			}
 		}
 	}
 	var enabled = [];
 	var selec = [];
+	var loadingErrors = false;
 	function onEnter(){
 		try{
 			var stuff_from_link = fromLink(window.location + "");
@@ -598,6 +611,7 @@
 			window.history.replaceState('Object', 'Title', "/");
 			document.getElementById('kop').style.display='none';
 			document.getElementById("linkki").value = window.location + "";
+			loadingErrors = true;
 		}
 	}
 	onEnter();
