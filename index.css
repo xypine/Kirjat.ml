@@ -13,6 +13,11 @@
 	transition: 0.2s filter linear, 0.2s -webkit-filter linear;
 	
 	margin-top: .5rem;
+	display: block;
+	width: 75% !important;
+	height: auto !important;
+	margin-left: auto;
+	margin-right: auto;
 }
 
 .jf-img:hover {
@@ -35,4 +40,8 @@
 
 .jf-card-foot {
 	margin-bottom: .5rem;
+}
+
+.jf-card-title-smaller{
+	font-size: 97%;
 }

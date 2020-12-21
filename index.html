@@ -499,6 +499,9 @@
 			td.parentElement.data = data;
 			
 			td.querySelector("#card-title").textContent = name;
+			if(name.length > 39){
+				td.querySelector("#card-title").classList.add("jf-card-title-smaller");
+			}
 			var conds = "";
 			var lastcond = conditions.length
 			for(var i in conditions){
@@ -729,7 +732,7 @@
 					var p = JSON.parse(stuff_from_link);
 					if (p[0] != ""){
 						document.getElementById("input").value = p[0];
-						console.log("Received lenght = " + p[1]);
+						console.log("Received length = " + p[1]);
 						console.log("Enabled: " + p[2])
 						enabled = p[2];
 						selec = p[3];
