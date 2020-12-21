@@ -15,12 +15,17 @@
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
 	
+	<!-- Dark theme -->
+	<link rel="stylesheet" href="https://unpkg.com/bootstrap-darkmode@0.7.0/dist/darktheme.css"/>
+	
 	<link rel="stylesheet" href="index.css">
 </head>
 <body>
 	<noscript>
-	<h1> This site does not work without javascript, please use <a href="http://kirjat-ml.herokuapp.com"> this site </a> instead or enable javascript. </h1>
+	<h1> This site does not work properly without javascript, please use <a href="http://kirjat-ml.herokuapp.com"> this site </a> instead or enable javascript. </h1>
 	</noscript>
+	<script src="https://unpkg.com/bootstrap-darkmode@0.7.0/dist/theme.js"></script>
+	<script src="theming.js"></script>
 	<div style="display:none;" id="content">
 		<div class="d-flex justify-content-center">
 			<h1> Kirjat.ml </h1><br>
@@ -29,8 +34,8 @@
 			<p style="font-size:92%;" class="text-muted"> Nimi ja domain "Kirjat.ml" © Elias Eskelinen 2020, sivuston koodi on MIT-Lisenssin alainen. <a href="https://github.com/jonnelafin/Kirjat.ml/"> Lähdekoodi </a>, <a href="LICENSE"> Lisenssi </a></p>
 	    	<button class="btn btn-dark add-button">Add to home screen</button>
 		</div>
-		<div class="d-flex justify-content-center">
-			<textarea cols=75 rows=7 onkeyup="typing()" onchange="typing()" placeholder="Kirjoita kirjojen nimet tähän, yksi per rivi.&#10;Esim:&#10;Bios 1 Elämä ja evoluutio&#10;Geos 1 Maailma muutoksessa&#10;Insights 2&#10;Tekijä Pitkä matematiikka 3&#10;Nos vemos 3" class="" id="input" ></textarea>
+		<div class="d-flex justify-content-center form-group">
+			<textarea cols=75 rows=7 onkeyup="typing()" onchange="typing()" placeholder="Kirjoita kirjojen nimet tähän, yksi per rivi.&#10;Esim:&#10;Bios 1 Elämä ja evoluutio&#10;Geos 1 Maailma muutoksessa&#10;Insights 2&#10;Tekijä Pitkä matematiikka 3&#10;Nos vemos 3" class="form-control jf-textarea" id="input" ></textarea>
 		</div>
 		<div class="text-center">
 			<p style="font-size:92%;" class="text-muted"> Haku saattaa toimia paremmin jos et kirjoita koko kirjan ja tekijän nimeä. <br>Esim. ei "Bios 1 Elämä ja evoluutio, Sanomapro" vaan "Bios 1" :)</p>
@@ -45,8 +50,8 @@
 				<button type="button" class="btn btn-primary jf-b-sel" id="btnNew" onclick="toggleResults(0)">Jämerä</button>
 				<button type="button" class="btn btn-primary jf-b-sel" id="btnNew" onclick="toggleResults(1)">Sanomapro</button>
 				<!--
-				<button type="button" class="btn btn-light" id="btnBlue" onclick="toggleB(this)">Sininen</button>
-				<button type="button" class="btn btn-light" id="btnGreen" onclick="toggleB(this)">Vihreä</button>
+				<button type="button" class="btn btn-dark" id="btnBlue" onclick="toggleB(this)">Sininen</button>
+				<button type="button" class="btn btn-dark" id="btnGreen" onclick="toggleB(this)">Vihreä</button>
 				<button type="button" class="btn btn-success" id="btnSelect" onclick="toggleB2(this)">-</button>
 				-->
 			</div>
@@ -78,7 +83,7 @@
 </body>
 <footer>
 <template id="cardTemplate">
-	<div class="card text-center col-auto" style="width: 18rem;">
+	<div class="card text-center col-auto bg-dark" style="width: 18rem;">
 	  <img class="card-img-top jf-img" src="" alt="Ei kuvaa" id="card-img-top" style="cursor: pointer;" title="Avaa jämerässä">
 	  <div class="card-body" id="card-body">
 		<h5 class="card-title" id="card-title">Card title</h5>
@@ -89,8 +94,8 @@
 		<p class="card-text" id="card-text3" style="font-size:120%">10€</p>
 		<div class="btn-group mr-2" role="group" aria-label="First group" id="buttons">
 			<button type="button" class="btn btn-primary" id="btnNew" onclick="toggleB(this)">Uusi</button>
-			<button type="button" class="btn btn-light" id="btnBlue" onclick="toggleB(this)">Sininen</button>
-			<button type="button" class="btn btn-light" id="btnGreen" onclick="toggleB(this)">Vihreä</button>
+			<button type="button" class="btn btn-dark" id="btnBlue" onclick="toggleB(this)">Sininen</button>
+			<button type="button" class="btn btn-dark" id="btnGreen" onclick="toggleB(this)">Vihreä</button>
 			<button type="button" class="btn btn-success" id="btnSelect" onclick="toggleB2(this)">-</button>
 		</div>
 	  </div>
@@ -207,7 +212,9 @@
 		fillLink();
 		updatePrice();
 	}
+	var queryDone = true;
 	function queryFull(callback) {
+		queryDone = false;
 		fillLink();
 		document.getElementById("results_original").innerHTML = "";
 		var val = document.getElementById("input").value;
@@ -253,7 +260,7 @@
 				collapse = "collapse show";
 				down = "▴";
 			}
-			document.getElementById("results_original").appendChild(htmlToElement('<button class="btn ' + collapsed + ' mx-auto border-info m-1" style="width: 99%;font-size:110%;" data-toggle="collapse" data-target="#collapse' + thing + '" onclick="this.innerHTML = this.innerHTML.replaceAll(\'▾\', \'|\').replaceAll(\'▴\', \'▾\').replaceAll(\'|\', \'▴\');">' + down + ' ' + val.split("\n")[thing] + ' ' + down + "</button>"));
+			document.getElementById("results_original").appendChild(htmlToElement('<button class="btn ' + collapsed + ' mx-auto border-info m-1 text-light" style="width: 99%;font-size:110%;" data-toggle="collapse" data-target="#collapse' + thing + '" onclick="this.innerHTML = this.innerHTML.replaceAll(\'▾\', \'|\').replaceAll(\'▴\', \'▾\').replaceAll(\'|\', \'▴\');">' + down + ' ' + val.split("\n")[thing] + ' ' + down + "</button>"));
 			document.getElementById("results_original").appendChild(htmlToElement('<div class="' + collapse + '  " id="collapse' + thing + '">'));
 			document.getElementById('collapse' + thing + '').appendChild(htmlToElement('<div class="d-flex row flex-row flex-nowrap container-fluid mx-auto" id="results" style="overflow-x: auto;">'));
 			var first = true;
@@ -284,6 +291,7 @@
 		  updatePrice();
 		})();
 		fillLink();
+		queryDone = true;
 		callback();
 	}
 	function formatE(price){
@@ -317,14 +325,14 @@
 			for (b in all){
 				var bt = all[b];
 				if(!("disabled" in bt.attributes)){
-					bt.classList.remove("btn-light");
+					bt.classList.remove("btn-dark");
 					bt.classList.remove("btn-primary");
 					bt.classList.remove("btn-secondary");
-					bt.classList.add("btn-light");
+					bt.classList.add("btn-dark");
 				}
 				//"cols" in document.getElementById("input").attributes
 			}
-			btn.classList.remove("btn-light");
+			btn.classList.remove("btn-dark");
 			btn.classList.add("btn-primary");
 		}
 		updatePrice();
@@ -344,8 +352,8 @@
 				}
 				card.querySelector("#card-text3").innerHTML = formatE(price+"")+"€";
 				//Style the card nicely
-				card.classList.remove("bg-white");
-				card.classList.remove("bg-light");
+				card.classList.remove("bg-black");
+				card.classList.remove("bg-dark");
 				total += price;
 				if(card.data.select){
 					var mi = 9999999;
@@ -356,11 +364,11 @@
 					}
 					min += mi;
 					max += ma;
-					card.classList.add("bg-light");
+					card.classList.add("bg-dark");
 					card.querySelector("#card-img-top").classList.remove("jf-img-disabled");
 				}
 				else{
-					card.classList.add("bg-white");
+					card.classList.add("bg-black");
 					card.querySelector("#card-img-top").classList.add("jf-img-disabled");
 				}
 			}
@@ -387,7 +395,7 @@
 				var bt = all[b];
 				if(!("disabled" in bt.attributes)){
 					//bt.classList.remove("btn-secondary");
-					bt.classList.remove("btn-light");
+					bt.classList.remove("btn-dark");
 					bt.classList.remove("btn-primary");
 					bt.classList.remove("btn-secondary");
 					bt.classList = b2_originals[b + btn];
@@ -402,7 +410,7 @@
 				var bt = all[b];
 				b2_originals[b + btn] = bt.classList + []; //ffs this is just stupid
 				if(!("disabled" in bt.attributes)){
-					bt.classList.remove("btn-light");
+					bt.classList.remove("btn-dark");
 					bt.classList.remove("btn-primary");
 					bt.classList.remove("btn-secondary");
 					bt.classList.add("btn-secondary");
@@ -445,8 +453,18 @@
 	}
 
 	function openTab(url){
-		var newTab = window.open();
-		newTab.location.href = url;
+		try{
+			var newTab = window.open();
+			newTab.location.href = url;
+		}
+		catch{
+			try{
+				window.open(url);
+			}
+			catch{
+				window.location.href = url;
+			}
+		}
 	}
 	
 	function addCardFull(name, conditions, prices, image, data, first, id, link, callback) {
@@ -627,7 +645,7 @@
 	new ClipboardJS('.btn');
 	
 	});
-
+	var loads = 0;
 	function afterLoad(){
 		var cards = document.getElementsByClassName("card");
 		var ind = 0;
@@ -648,7 +666,7 @@
 				/*
 				for (b in all){
 					var bt = all[b];
-					b2_originals[b + btn] = ["btn btn-light"];
+					b2_originals[b + btn] = ["btn btn-dark"];
 				}*/
 				
 				btn.classList.remove("btn-danger");
@@ -677,6 +695,14 @@
 				}
 				//toggleB2(btn); 
 			}
+		}
+		if(loads == 0 && queryDone){
+			loads += 1;
+			//toggleResults(1);
+			//queryFull(afterLoad);
+		}
+		else{
+			loads += 1;
 		}
 	}
 	var enabled = [];
