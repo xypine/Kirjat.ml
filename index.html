@@ -18,40 +18,48 @@
 	<link rel="stylesheet" href="index.css">
 </head>
 <body>
-	<div class="d-flex justify-content-center">
-		<h1> Kirjat.ml </h1><br>
-	</div>
-	<div class="text-center">
-		<p style="font-size:92%;" class="text-muted"> Nimi ja domain "Kirjat.ml" © Elias Eskelinen 2020, sivuston koodi on MIT-Lisenssin alainen. <a href="https://github.com/jonnelafin/Kirjat.ml/"> Lähdekoodi </a>, <a href="LICENSE"> Lisenssi </a></p>
-    	<button class="btn btn-dark add-button">Add to home screen</button>
-	</div>
-	<div class="d-flex justify-content-center">
-		<textarea cols=75 rows=7 onkeyup="typing()" onchange="typing()" placeholder="Kirjoita kirjojen nimet tähän, yksi per rivi.&#10;Esim:&#10;Bios 1 Elämä ja evoluutio&#10;Geos 1 Maailma muutoksessa&#10;Insights 2&#10;Tekijä Pitkä matematiikka 3&#10;Nos vemos 3" class="" id="input" ></textarea>
-	</div>
-	<div class="text-center">
-		<p style="font-size:92%;" class="text-muted"> Haku saattaa toimia paremmin jos et kirjoita koko kirjan ja tekijän nimeä. <br>Esim. ei "Bios 1 Elämä ja evoluutio, Sanomapro" vaan "Bios 1" :)</p>
-	</div>
-	<br>
-	<div class="text-center">
-		<button class="btn btn-primary" onclick="query()"> Hae </button>
-		<!-- <input type="number"/> Tulosten määrä </input> -->
-	</div>
-	<hr>
-	<div class="container-fluid " id="results_original">
-	</div>
-	<hr>
-	<div class=" container d-flex justify-content-center card">
-	    <div class="card-body">
-			<div class="text-center">
-				<h3 id="finalHinta" class="card-title"> Yhteensä 0€ <h3/>
-				<h4 id="finalHintaSub"> <h4/>
-			</div>
-	        <p class="card-description">Alta voit kopioda linkin tähän hakuun:</p> <input type="text" id="linkki" class="form-control" value="https://kirjat.ml/">
-	        <div class="mt-3"> <button type="button" onclick="document.getElementById('kop').style.display='';" class="btn btn-info btn-clipboard" data-clipboard-action="copy" data-clipboard-target="#linkki">Kopio Linkki</button>  </div>
-	        <p id="kop" style="display:none;"> Linkki kopioitu! </p>
+	<noscript>
+	<h1> This site does not work without javascript, please use <a href="http://kirjat-ml.herokuapp.com"> this site </a> instead or enable javascript. </h1>
+	</noscript>
+	<div style="display:none;" id="content">
+		<div class="d-flex justify-content-center">
+			<h1> Kirjat.ml </h1><br>
+		</div>
+		<div class="text-center">
+			<p style="font-size:92%;" class="text-muted"> Nimi ja domain "Kirjat.ml" © Elias Eskelinen 2020, sivuston koodi on MIT-Lisenssin alainen. <a href="https://github.com/jonnelafin/Kirjat.ml/"> Lähdekoodi </a>, <a href="LICENSE"> Lisenssi </a></p>
+	    	<button class="btn btn-dark add-button">Add to home screen</button>
+		</div>
+		<div class="d-flex justify-content-center">
+			<textarea cols=75 rows=7 onkeyup="typing()" onchange="typing()" placeholder="Kirjoita kirjojen nimet tähän, yksi per rivi.&#10;Esim:&#10;Bios 1 Elämä ja evoluutio&#10;Geos 1 Maailma muutoksessa&#10;Insights 2&#10;Tekijä Pitkä matematiikka 3&#10;Nos vemos 3" class="" id="input" ></textarea>
+		</div>
+		<div class="text-center">
+			<p style="font-size:92%;" class="text-muted"> Haku saattaa toimia paremmin jos et kirjoita koko kirjan ja tekijän nimeä. <br>Esim. ei "Bios 1 Elämä ja evoluutio, Sanomapro" vaan "Bios 1" :)</p>
+		</div>
+		<br>
+		<div class="text-center">
+			<button class="btn btn-primary" onclick="query()"> Hae </button>
+			<!-- <input type="number"/> Tulosten määrä </input> -->
+		</div>
+		<hr>
+		<div class="container-fluid " id="results_original">
+		</div>
+		<hr>
+		<div class=" container d-flex justify-content-center card">
+		    <div class="card-body">
+				<div class="text-center">
+					<h3 id="finalHinta" class="card-title"> Yhteensä 0€ <h3/>
+					<h4 id="finalHintaSub"> <h4/>
+				</div>
+		        <p class="card-description">Alta voit kopioda linkin tähän hakuun:</p> <input type="text" id="linkki" class="form-control" value="https://kirjat.ml/">
+		        <div class="mt-3"> <button type="button" onclick="document.getElementById('kop').style.display='';" class="btn btn-info btn-clipboard" data-clipboard-action="copy" data-clipboard-target="#linkki">Kopio Linkki</button>  </div>
+		        <p id="kop" style="display:none;"> Linkki kopioitu! </p>
+		    </div>
 	    </div>
-    </div>
-    <br \>
+	    <br \>
+	</div>
+	<script>
+		document.getElementById("content").style.display = "block";
+	</script>
 </body>
 <footer>
 <template id="cardTemplate">
