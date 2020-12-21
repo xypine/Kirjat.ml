@@ -4,10 +4,15 @@
 
 .jf-img {
 	filter: grayscale(0%);
+	filter: brightness(100%);
 	-webkit-transition: 0.2s -webkit-filter linear;
 	-moz-transition: 0.2s -moz-filter linear;
 	-moz-transition: 0.2s filter linear;
 	-ms-transition: 0.2s -ms-filter linear;
 	-o-transition: 0.2s -o-filter linear;
 	transition: 0.2s filter linear, 0.2s -webkit-filter linear;
+}
+
+.jf-img:hover {
+	filter: brightness(80%);
 }

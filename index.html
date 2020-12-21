@@ -64,7 +64,7 @@
 <footer>
 <template id="cardTemplate">
 	<div class="card text-center col-auto" style="width: 18rem;">
-	  <img class="card-img-top jf-img" src="" alt="Ei kuvaa" id="card-img-top">
+	  <img class="card-img-top jf-img" src="" alt="Ei kuvaa" id="card-img-top" style="cursor: pointer;" title="Avaa jämerässä">
 	  <div class="card-body" id="card-body">
 		<h5 class="card-title" id="card-title">Card title</h5>
 		<p class="card-text" id="card-text" style="margin-bottom: 0.1rem;">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
@@ -178,7 +178,7 @@
 				var conditions = book["conditions"];
 				var price = book["price"];
 				if (price != -1){
-					addCardFull(name, conditions, prices, image, book, first, id, callback);
+					addCardFull(name, conditions, prices, image, book, first, id, link, callback);
 					first = false;
 				}
 			}
@@ -354,7 +354,13 @@
 	function addCard(name, conditions, prices, image, data, first, id){
 		addCardFull(name, conditions, prices, image, data, first, id, ()=>{});
 	}
-	function addCardFull(name, conditions, prices, image, data, first, id, callback) {
+
+	function openTab(url){
+		var newTab = window.open();
+		newTab.location.href = url;
+	}
+	
+	function addCardFull(name, conditions, prices, image, data, first, id, link, callback) {
 		if ('content' in document.createElement('template')) {
 
 			// Instantiate the table with the existing HTML tbody
@@ -387,6 +393,7 @@
 			clone.querySelector("#card-text3").textContent = "" + formatE(prices[0]+"") + "€";
 			var img = clone.querySelector("#card-img-top");
 			img.src = image;
+			img.onclick = function() {openTab(link);};
 			//setColor(td.parentElement);
 			//var color = getAverageRGB(img);
 			//td.parentElement.style.background = "rgb(" + color.r, + ", " + color.b + ", " + color.g + ")";
