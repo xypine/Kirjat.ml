@@ -40,8 +40,23 @@
 			<button class="btn btn-primary" onclick="query()"> Hae </button>
 			<!-- <input type="number"/> Tulosten määrä </input> -->
 		</div>
+		<div class="text-center">
+			<div class="btn-group mr-2" role="group" aria-label="Button group" id="buttons">
+				<button type="button" class="btn btn-primary jf-b-sel" id="btnNew" onclick="toggleResults(0)">Jämerä</button>
+				<button type="button" class="btn btn-primary jf-b-sel" id="btnNew" onclick="toggleResults(1)">Sanomapro</button>
+				<!--
+				<button type="button" class="btn btn-light" id="btnBlue" onclick="toggleB(this)">Sininen</button>
+				<button type="button" class="btn btn-light" id="btnGreen" onclick="toggleB(this)">Vihreä</button>
+				<button type="button" class="btn btn-success" id="btnSelect" onclick="toggleB2(this)">-</button>
+				-->
+			</div>
+				<p> Sanomapro-tuki on vielä *erittäin* kokeellista! </p>
+			<!-- <input type="number"/> Tulosten määrä </input> -->
+		</div>
 		<hr>
-		<div class="container-fluid " id="results_original">
+		<div class="container-fluid " id="results_original" class="res_jam">
+		</div>
+		<div class="container-fluid " id="results_original_not_in_use" class="res_san">
 		</div>
 		<hr>
 		<div class=" container d-flex justify-content-center card">
@@ -84,6 +99,73 @@
 <script>
 	var results_max = 12;
 	var pwa_enabled = false;
+
+	var platform = 0;
+	function toggleResults(whi){
+		var in_use = document.getElementById("results_original");
+		var not_in_use = document.getElementById("results_original_not_in_use");
+		//in_use.id = "results_original_not_in_use";
+		//not_in_use.id = "results_original";
+		if(!in_use.original){
+			in_use.original = 2;
+			not_in_use.original = 3;
+		}
+		var o = not_in_use;
+		var on = in_use;
+		if(in_use.original == 2){
+			o = in_use;
+			on = not_in_use;
+		}
+		if(whi == 0){
+			o.style.display = "block";
+			on.style.display = "none";
+			o.id = "results_original";
+			on.id = "results_original_not_in_use";
+			var res = on.querySelectorAll("#results");
+			for(i in res){
+				res[i].id = "results_old";
+			}
+			var reso = o.querySelectorAll("#results_old");
+			for(i in reso){
+				reso[i].id = "results";
+			}
+			for(var x =0;x < 35;x++){
+				var cres = on.querySelectorAll("#collapse" + x);
+				for(i in cres){
+					cres[i].id = "collapse_old" + x;
+				}
+				var creso = o.querySelectorAll("#collapse_old" + x);
+				for(i in creso){
+					creso[i].id = "collapse" + x;
+				}
+			}
+		}
+		else if(whi == 1){
+			o.style.display = "none";
+			on.style.display = "block";
+			o.id = "results_original_not_in_use";
+			on.id = "results_original";
+			var res = o.querySelectorAll("#results");
+			for(i in res){
+				res[i].id = "results_old";
+			}
+			var reso = on.querySelectorAll("#results_old");
+			for(i in reso){
+				reso[i].id = "results";
+			}
+			for(var x =0;x < 35;x++){
+				var cres = o.querySelectorAll("#collapse" + x);
+				for(i in cres){
+					cres[i].id = "collapse_old" + x;
+				}
+				var creso = on.querySelectorAll("#collapse_old" + x);
+				for(i in creso){
+					creso[i].id = "collapse" + x;
+				}
+			}
+		}
+		platform = whi;
+	}
 	function typing() {
 		var val = document.getElementById("input").value;
 		val = val.replaceAll("\n\n", "\n");
@@ -140,7 +222,14 @@
 		console.log(val)
 		document.getElementById("input").rows = Math.min(7, lineC) + 2;
 		let formData = new FormData();
-		formData.append('querym', val);
+		var q  = '';
+		if(platform == 0){
+			q = 'querym';
+		}
+		else if(platform == 1){
+			q = 'querymsan'
+		}
+		formData.append(q, val);
 		document.getElementById("results_original").appendChild(htmlToElement('<div class="mx-auto text-center"><div class="spinner-border" role="status"><span class="sr-only">Loading...</span></div>Odotetaan vastausta palvelimelta... Tässä saattaa kestää hetki jos olet ensimmäinen käyttäjä vähään aikaan.</div>'));
 		(async () => {
 		  const rawResponse = await fetch('https://kirjat-ml.herokuapp.com/api/v1', {

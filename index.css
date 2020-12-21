@@ -16,3 +16,8 @@
 .jf-img:hover {
 	filter: brightness(80%);
 }
+
+.jf-b-sel {
+	margin-top: 1em;
+	font-size: 80%;
+}
