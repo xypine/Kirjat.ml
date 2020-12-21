@@ -11,6 +11,8 @@
 	-ms-transition: 0.2s -ms-filter linear;
 	-o-transition: 0.2s -o-filter linear;
 	transition: 0.2s filter linear, 0.2s -webkit-filter linear;
+	
+	margin-top: .5rem;
 }
 
 .jf-img:hover {
@@ -24,4 +26,13 @@
 
 .jf-textarea {
 	width: 60%;
+}
+
+.jf-card {
+	max-width: 19rem;
+	max-height: 35rem;
+}
+
+.jf-card-foot {
+	margin-bottom: .5rem;
 }
