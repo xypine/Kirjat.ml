@@ -84,7 +84,7 @@
 </body>
 <footer>
 <template id="cardTemplate">
-	<div class="card text-center col-auto bg-dark jf-card" style="width: 18rem;">
+	<div class="card text-center col-auto jf-card" style="width: 18rem;">
 	  <img class="card-img-top jf-img" src="" alt="Ei kuvaa" id="card-img-top" style="cursor: pointer;" title="Avaa jämerässä">
 	  <div class="card-body" id="card-body">
 		<h5 class="card-title" id="card-title">Card title</h5>
@@ -272,7 +272,7 @@
 				collapse = "collapse show";
 				down = "▴";
 			}
-			document.getElementById("results_original").appendChild(htmlToElement('<button class="btn ' + collapsed + ' mx-auto border-info m-1 text-light" style="width: 99%;font-size:110%;" data-toggle="collapse" data-target="#collapse' + thing + '" onclick="this.innerHTML = this.innerHTML.replaceAll(\'▾\', \'|\').replaceAll(\'▴\', \'▾\').replaceAll(\'|\', \'▴\');">' + down + ' ' + val.split("\n")[thing] + ' ' + down + "</button>"));
+			document.getElementById("results_original").appendChild(htmlToElement('<button class="btn ' + collapsed + ' mx-auto border-info m-1 ' + textC + '" style="width: 99%;font-size:110%;" data-toggle="collapse" data-target="#collapse' + thing + '" onclick="this.innerHTML = this.innerHTML.replaceAll(\'▾\', \'|\').replaceAll(\'▴\', \'▾\').replaceAll(\'|\', \'▴\');">' + down + ' ' + val.split("\n")[thing] + ' ' + down + "</button>"));
 			document.getElementById("results_original").appendChild(htmlToElement('<div class="' + collapse + '  " id="collapse' + thing + '">'));
 			document.getElementById('collapse' + thing + '').appendChild(htmlToElement('<div class="d-flex row flex-row flex-nowrap container-fluid mx-auto" id="results" style="overflow-x: auto;">'));
 			var first = true;
@@ -365,8 +365,8 @@
 				}
 				card.querySelector("#card-text3").innerHTML = formatE(price+"")+"€";
 				//Style the card nicely
-				card.classList.remove("bg-black");
-				card.classList.remove("bg-dark");
+				card.classList.remove(bgC);
+				card.classList.remove(bg2C);
 				total += price;
 				if(card.data.select){
 					var mi = 9999999;
@@ -377,11 +377,11 @@
 					}
 					min += mi;
 					max += ma;
-					card.classList.add("bg-dark");
+					card.classList.add(bg2C);
 					card.querySelector("#card-img-top").classList.remove("jf-img-disabled");
 				}
 				else{
-					card.classList.add("bg-black");
+					card.classList.add(bgC);
 					card.querySelector("#card-img-top").classList.add("jf-img-disabled");
 				}
 			}
@@ -547,6 +547,7 @@
 				toggleB2(btn4);
 				//console.log(btn4);
 			}
+			td.classList.add(bg2C);
 
 		} else {
 		  // Find another way to add the rows to the table because 
