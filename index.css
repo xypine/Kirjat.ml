@@ -1,3 +1,12 @@
+.Logo {
+/*	padding-left: calc(calc(10px + 12px) * 2);*/
+	font-size: 3.2rem;
+}
+
+.jf-darkToggle {
+	border-bottom-width: 0px;padding-bottom: 0px;padding-top: 0px;border-top-width: 0px;margin-top: 10px;margin-bottom: 10px;margin-left: 10px;margin-right: 10px;border-right-width: 0px;border-left-width: 0px;
+}
+
 .jf-img-disabled {
 	filter: grayscale(100%) !important;
 }
@@ -26,7 +35,12 @@
 
 .jf-b-sel {
 	margin-top: 1em;
+	margin-bottom: .5em;
 	font-size: 80%;
+}
+
+.jf-nice-hint {
+	margin-top: 0px;
 }
 
 .jf-textarea {
@@ -44,4 +58,8 @@
 
 .jf-card-title-smaller{
 	font-size: 97%;
+}
+
+.btn-copy {
+	width: 49%;
 }

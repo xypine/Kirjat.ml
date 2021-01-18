@@ -13,6 +13,7 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js" crossorigin="anonymous"></script>
 	<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
 	
 	<!-- Dark theme -->
@@ -28,22 +29,11 @@
 	<script src="theming.js"></script>
 	<div style="display:none;" id="content">
 		<div class="d-flex justify-content-center">
-			<h1> Kirjat.ml </h1><br>
+			<h1 class="Logo"> Kirjat.ml </h1><!--<button onclick="toggleDark()" class="btn btn-light jf-darkToggle"> <i class="bi bi-moon"></i> </button>--><br>
 		</div>
 		<div class="text-center">
 			<p style="font-size:92%;" class="text-muted"> Nimi ja domain "Kirjat.ml" © Elias Eskelinen 2020, sivuston koodi on MIT-Lisenssin alainen. <a href="https://github.com/jonnelafin/Kirjat.ml/"> Lähdekoodi </a>, <a href="LICENSE"> Lisenssi </a></p>
 	    	<button class="btn btn-dark add-button">Add to home screen</button>
-		</div>
-		<div class="d-flex justify-content-center form-group">
-			<textarea cols=75 rows=7 onkeyup="typing()" onchange="typing()" placeholder="Kirjoita kirjojen nimet tähän, yksi per rivi.&#10;Esim:&#10;Bios 1 Elämä ja evoluutio&#10;Geos 1 Maailma muutoksessa&#10;Insights 2&#10;Tekijä Pitkä matematiikka 3&#10;Nos vemos 3" class="form-control jf-textarea" id="input" ></textarea>
-		</div>
-		<div class="text-center">
-			<p style="font-size:92%;" class="text-muted"> Haku saattaa toimia paremmin jos et kirjoita koko kirjan ja tekijän nimeä. <br>Esim. ei "Bios 1 Elämä ja evoluutio, Sanomapro" vaan "Bios 1" :)</p>
-		</div>
-		<br>
-		<div class="text-center">
-			<button class="btn btn-primary" onclick="query()"> Hae </button>
-			<!-- <input type="number"/> Tulosten määrä </input> -->
 		</div>
 		<div class="text-center">
 			<div class="btn-group mr-2" role="group" aria-label="Button group" id="buttons">
@@ -55,7 +45,20 @@
 				<button type="button" class="btn btn-success" id="btnSelect" onclick="toggleB2(this)">-</button>
 				-->
 			</div>
-				<p> Sanomapro-tuki on vielä *hyvin* kokeellista! </p>
+			<!-- <input type="number"/> Tulosten määrä </input> -->
+		</div>
+		<div class="text-center jf-nice-hint text-muted">
+		Sanomapro vasta osittain tuettu!
+		</div>
+		<div class="d-flex justify-content-center form-group">
+			<textarea cols=75 rows=7 onkeyup="typing()" onchange="typing()" placeholder="Kirjoita kirjojen nimet tähän, yksi per rivi.&#10;Esim:&#10;Bios 1 Elämä ja evoluutio&#10;Geos 1 Maailma muutoksessa&#10;Insights 2&#10;Tekijä Pitkä matematiikka 3&#10;Nos vemos 3" class="form-control jf-textarea" id="input" ></textarea>
+		</div>
+		<div class="text-center">
+			<p style="font-size:92%;" class=""> Haku saattaa toimia paremmin jos et kirjoita koko kirjan ja tekijän nimeä. <br>Esim. ei "Bios 1 Elämä ja evoluutio, Sanomapro" vaan "Bios 1" :)</p>
+		</div>
+		<br>
+		<div class="text-center">
+			<button class="btn btn-primary" onclick="query()"> Hae </button>
 			<!-- <input type="number"/> Tulosten määrä </input> -->
 		</div>
 		<hr>
@@ -72,8 +75,11 @@
 					<h4 id="finalHintaSub"> <h4/>
 				</div>
 		        <p class="card-description">Alta voit kopioda linkin tähän hakuun:</p> <input type="text" id="linkki" class="form-control" value="https://kirjat.ml/">
-		        <div class="mt-3"> <button type="button" onclick="document.getElementById('kop').style.display='';" class="btn btn-info btn-clipboard" data-clipboard-action="copy" data-clipboard-target="#linkki">Kopioi Linkki</button> <button class="btn btn-dark" onclick="rmResults();"> Tyhjennä tämän kirjakaupan hakutulokset </button> </div>
-		        <p id="kop" style="display:none;"> Linkki kopioitu! </p>
+		        <div class="mt-3 text-center"> 
+			        <button type="button" onclick="document.getElementById('kop').style.display='';" class="btn btn-info btn-clipboard btn-copy" data-clipboard-action="copy" data-clipboard-target="#linkki">Kopioi Linkki</button> 
+			        <button class="btn btn-dark btn-copy" onclick="rmResults();"> Tyhjennä tämän kirjakaupan hakutulokset </button>
+			        <p id="kop" style="display:none;"> Linkki kopioitu! </p>
+		        </div>
 		    </div>
 	    </div>
 	    <br \>
@@ -84,7 +90,7 @@
 </body>
 <footer>
 <template id="cardTemplate">
-	<div class="card text-center col-auto jf-card" style="width: 18rem;">
+	<div class="card text-center col-auto jf-card" style="width: 19rem;">
 	  <img class="card-img-top jf-img" src="" alt="Ei kuvaa" id="card-img-top" style="cursor: pointer;" title="Avaa jämerässä">
 	  <div class="card-body" id="card-body">
 		<h5 class="card-title" id="card-title">Card title</h5>
