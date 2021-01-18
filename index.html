@@ -186,6 +186,7 @@
 				}
 			}
 		}
+		fillLink();
 		platform = whi;
 	}
 	function typing() {
@@ -205,7 +206,7 @@
 		var org = document.getElementById("results_original").innerHTML;
 		var empty = false;
 		var val = genLink();
-		if(val.includes("?WyIiLDQsWyIzNjMwNyIsIjM2MzAyIl0seyIzNjMwMiI6MSwiMzYzMDciOjJ9XQ%3D%3D") || val.includes("?WyIiLDEsW10se31d")){
+		if(val.includes("?WyIiLDQsWyIzNjMwNyIsIjM2MzAyIl0seyIzNjMwMiI6MSwiMzYzMDciOjJ9XQ%3D%3D") || val.includes("?WyIiLDEsW10se30sMF0%3D")){
 			val = window.location.href.split("?")[0];
 			empty = true;
 		}
@@ -601,7 +602,7 @@
 		}
 		selec2 = selectd;
 		var loc = (window.location + "").split("?")[0].replaceAll("?","");
-		var json = JSON.stringify([val, s, enabled, selectd]);
+		var json = JSON.stringify([val, s, enabled, selectd, platform]);
 		return loc.substring(0,loc.length-1) + "?" + encodeURIComponent(btoa(bClean(json)));
 	}
 	function fromLink(link){
@@ -743,6 +744,8 @@
 						console.log("Enabled: " + p[2])
 						enabled = p[2];
 						selec = p[3];
+						platform = p[4]
+						toggleResults(platform);
 						if(p[1] > 1){
 							queryFull(afterLoad);
 						}
