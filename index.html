@@ -33,12 +33,17 @@
 		</div>
 		<div class="text-center">
 			<p style="font-size:92%;" class="text-muted"> Nimi ja domain "Kirjat.ml" © Elias Eskelinen 2020, sivuston koodi on MIT-Lisenssin alainen. <a href="https://github.com/jonnelafin/Kirjat.ml/"> Lähdekoodi </a>, <a href="LICENSE"> Lisenssi </a></p>
-	    	<button class="btn btn-dark add-button">Add to home screen</button>
+	    	<button class="btn btn-dark add-button">Lisää kotiruutuun</button>
 		</div>
 		<div class="text-center">
 			<div class="btn-group mr-2" role="group" aria-label="Button group" id="buttons">
-				<button type="button" class="btn btn-info jf-b-sel" id="btnJam" onclick="toggleResults(0)">Jämerä</button>
-				<button type="button" class="btn btn-dark jf-b-sel" id="btnSan" onclick="toggleResults(1)">Sanomapro</button>
+				<button type="button" class="btn btn-info jf-b-sel" id="btnJam" onclick="toggleResults(0)">
+					Jämerä
+				<span class="total-bookstore" id="total-0"> 0€ </span></button>
+				
+				<button type="button" class="btn btn-dark jf-b-sel" id="btnSan" onclick="toggleResults(1)">
+					Sanomapro
+				<span class="total-bookstore" id="total-1"> 0€ </span></button>
 				<!--
 				<button type="button" class="btn btn-dark" id="btnBlue" onclick="toggleB(this)">Sininen</button>
 				<button type="button" class="btn btn-dark" id="btnGreen" onclick="toggleB(this)">Vihreä</button>
@@ -397,7 +402,13 @@
 		var hintInfoSub = document.getElementById("finalHintaSub");
 		hintInfo.innerHTML = "Yhteensä " + formatE(total+"")+"€";
 		hintInfoSub.innerHTML = "(" + formatE(min+"") + "€ - " + formatE(max+"") + "€)";
+		
+		document.getElementById("total-" + platform).innerHTML = formatE(total+"")+"€";
+		
 		fillLink();
+	}
+	function updateBtnTotals(){
+	
 	}
 	var b2_originals = {}
 	function toggleB2(btn){
