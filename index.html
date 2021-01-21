@@ -363,6 +363,8 @@
 		updatePrice();
 	}
 	function updatePrice(){
+		var stores = ["jam", "san"];
+		var storeTotals = {0: 0, 1: 0};
 		var cards = document.getElementsByClassName("card");
 		var total = 0;
 		var min = 0;
@@ -379,6 +381,10 @@
 				//Style the card nicely
 				card.classList.remove(bgC);
 				card.classList.remove(bg2C);
+				var stor = data.store;
+				var stori= stores.indexOf(stor);
+				storeTotals[stori] += price;
+				console.log(storeTotals);
 				total += price;
 				if(card.data.select){
 					var mi = 9999999;
@@ -403,7 +409,7 @@
 		hintInfo.innerHTML = "Yhteensä " + formatE(total+"")+"€";
 		hintInfoSub.innerHTML = "(" + formatE(min+"") + "€ - " + formatE(max+"") + "€)";
 		
-		document.getElementById("total-" + platform).innerHTML = formatE(total+"")+"€";
+		document.getElementById("total-" + platform).innerHTML = formatE(storeTotals[platform]+"")+"€";
 		
 		fillLink();
 	}
