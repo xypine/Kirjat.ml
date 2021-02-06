@@ -98,7 +98,7 @@
 	<div class="card text-center col-auto jf-card" style="width: 19rem;">
 	  <img class="card-img-top jf-img" src="" alt="Ei kuvaa" id="card-img-top" style="cursor: pointer;" title="Avaa jämerässä">
 	  <div class="card-body" id="card-body">
-		<h5 class="card-title" id="card-title">Card title</h5>
+		<a class="card-title" id="card-title">Card title</a>
 		<p class="card-text" id="card-text" style="margin-bottom: 0.1rem;">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
 		<p class="card-text" id="card-text2" style="font-size:90%">Max 10€</p>
 	  </div>
@@ -502,6 +502,7 @@
 				window.location.href = url;
 			}
 		}
+		return false;
 	}
 	
 	function addCardFull(name, conditions, prices, image, data, first, id, link, callback) {
@@ -523,6 +524,8 @@
 			td.parentElement.data = data;
 			
 			td.querySelector("#card-title").textContent = name;
+			td.querySelector("#card-title").href = link;
+			td.querySelector("#card-title").onclick = function() {return openTab(link);};
 			if(name.length > 39){
 				td.querySelector("#card-title").classList.add("jf-card-title-smaller");
 			}
