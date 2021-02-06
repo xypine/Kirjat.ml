@@ -3,6 +3,8 @@ var textC = "text-dark";
 var bgC = "bg-white";
 var bg2C = "bg-light";
 var btnC = "";
+var darksetting;
+var darkSwitch;
 function applyTheme(){
 	
 }
@@ -31,12 +33,22 @@ if(navigator.userAgent.toLowerCase().indexOf('firefox') > -1 || true){
      textC = "text-light";
      bgC = "bg-black";
      bg2C = "bg-dark";
-     const darkSwitch = writeDarkSwitch(themeConfig);
-     themeConfig.themeChangeHandlers.push(theme => toggleDark(theme));
+     
+     darkSwitch = writeDarkSwitch(themeConfig);
+     darksetting = darkSwitch.parentElement;
+     darksetting.style.display = "none";
+     document.querySelector(".custom-control-label").innerHTML = "tumma teema";
+	 themeConfig.themeChangeHandlers.push(theme => toggleDark(theme));
 }
 else{
 	console.log("Platform seems to not be firefox, theming won't probably work.");
 }
 
 if(!darktheme){
+}
+function themingFinish(){
+    let settings= document.querySelector("#settings");
+    darksetting.parentElement.removeChild(darksetting);
+    settings.appendChild(darksetting);
+	darksetting.style.display = "block";
 }
