@@ -87,11 +87,11 @@
 				</div>
 		        <p class="card-description">Alta voit kopioda linkin tähän hakuun:</p> <input type="text" id="linkki" class="form-control" value="https://kirjat.ml/">
 		        <div class="mt-3 text-center"> 
+			        <p id="kop" style="display:none;color:#0069d9;"> Linkki kopioitu! </p>
 			        <button type="button" onclick="document.getElementById('kop').style.display='';" class="btn btn-dark btn-clipboard btn-share" data-clipboard-action="copy" data-clipboard-target="#linkki">Kopioi linkki</button> 
-					<button class="btn btn-primary btn-share" onclick="share(genLink());"> Jaa </button>
+					<button class="btn btn-primary btn-share" id="share" onclick="share(genLink());"> Jaa </button>
 					
 			        <button class="btn btn-secondary btn-copy" onclick="rmResults();"> Tyhjennä tulokset </button>
-			        <p id="kop" style="display:none;"> Linkki kopioitu! </p>
 		        </div>
 		        <hr \>
 				<div id="settings" style="margin: auto;width: 10em;">
