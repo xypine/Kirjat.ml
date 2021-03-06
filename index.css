@@ -1,6 +1,38 @@
+/*Notes
+Accent: #17a2b8
+Hmm: #0069d9
+*/
+
+body {
+	padding-top: 2em;
+}
+
 .Logo {
 /*	padding-left: calc(calc(10px + 12px) * 2);*/
 	font-size: 3.2rem;
+	margin-top: .45em;
+	margin-left: -.65em;
+}
+:root {
+    --logo-filter: invert(0%);
+}
+.LogoImg{
+	width: 6.4rem;
+	filter: var(--logo-filter);
+	z-index: -1;
+}
+.searchbox{
+	margin: auto;
+	width: 60%;
+}
+.tiptext{
+	width: 60%;
+	float: left;
+	
+}
+.searchbtn{
+	float: right;
+	width: 30%;
 }
 .total-bookstore {
 	margin-top: 1em;
@@ -61,8 +93,12 @@
 .jf-card-title-smaller{
 	font-size: 97%;
 }
-
-.btn-copy {
+.btn-share {
 	width: 49%;
+	height: 2.4em;
+}
+.btn-copy {
+	width: 98.5%;
+	margin-top: .25em;
 	height: 2.4em;
 }
