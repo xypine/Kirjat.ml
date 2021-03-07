@@ -50,3 +50,4 @@ if (pwa_enabled){
 else{
 	console.log("PWA functionality manually disabled.");
 }
+
