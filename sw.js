@@ -1,6 +1,9 @@
 console.log("Service worker registered.");
 
 var cacheName = "kirjat.ml-offline";
+var blacklist = [
+	"manifest.json"
+]
 
 self.addEventListener('fetch', (event) => {
   event.respondWith(async function() {
