@@ -15,123 +15,27 @@
 // Change to v2, etc. when you update any of the local resources, which will
 // in turn trigger the install event again.
 console.log("Service worker registered.");
-const PRECACHE = 'precache-v1';
-const RUNTIME = 'runtime';
 
-// A list of local resources we always want to be cached.
-const PRECACHE_URLS = [
-  'index.html',
-  './', // Alias for index.html
-  //'styles.css',
-  //'../../styles/main.css',
-  //'demo.js'
-];
+var cacheName = "lmao-offline";
 
-//#Start jf 2020
-//The api url
-const API_URL = 'https://kirjat-ml.herokuapp.com';
-
-//End jf 2020
-// The install handler takes care of precaching the resources we always need.
-self.addEventListener('install', event => {
-  event.waitUntil(
-    caches.open(PRECACHE)
-      .then(cache => cache.addAll(PRECACHE_URLS))
-      .then(self.skipWaiting())
-  );
-});
-
-// The activate handler takes care of cleaning up old caches.
-self.addEventListener('activate', event => {
-  const currentCaches = [PRECACHE, RUNTIME];
-  event.waitUntil(
-    caches.keys().then(cacheNames => {
-      return cacheNames.filter(cacheName => !currentCaches.includes(cacheName));
-    }).then(cachesToDelete => {
-      return Promise.all(cachesToDelete.map(cacheToDelete => {
-        return caches.delete(cacheToDelete);
-      }));
-    }).then(() => self.clients.claim())
-  );
-});
-
-// The fetch handler serves responses for same-origin resources from a cache.
-// If no response is found, it populates the runtime cache with the response
-// from the network before returning it to the page.
-/*
-self.addEventListener('fetch', event => {
-  // Skip cross-origin requests, like those for Google Analytics.
-  if (event.request.url.startsWith(self.location.origin) /*|| event.request.url.startsWith(API_URL)\*\/) {
-    event.respondWith(
-      caches.match(event.request).then(cachedResponse => {
-        if (cachedResponse) {
-          return cachedResponse;
-        }
-
-        return caches.open(RUNTIME).then(cache => {
-          return fetch(event.request).then(response => {
-            // Put a copy of the response in the runtime cache.
-            return cache.put(event.request, response.clone()).then(() => {
-              return response;
-            });
-          });
-        });
-      })
-    );
-  }
-});
-*/
-/*
-addEventListener("fetch", function(e) {
-  e.request.mode = 'cors';
-  e.respondWith((async function() {
-    const cachedResponse = await caches.match(e.request);
-    if (cachedResponse) {
-      return cachedResponse;
-    }
-    const networkResponse = await fetch(e.request);
-
-    const hosts = [
-      API_URL,
-      'kauppa.jamera.net',
-      'https://cdnjs.cloudflare.com/',
-      'https://kirjat-ml.herokuapp.com',
-    ];
-
-    if (hosts.some((host) => e.request.url.startsWith(host))) {
-      // This clone() happens before `return networkResponse` 
-      const clonedResponse = networkResponse.clone();
-
-      e.waitUntil((async function() {
-        const cache = await caches.open(RUNTIME);
-        // This will be called after `return networkResponse`
-        // so make sure you already have the clone!
-        await cache.put(e.request, clonedResponse);
-      })());
-    }
-
-    return networkResponse;
-  })());
-});
-*/
 self.addEventListener('fetch', function(event) {
   event.respondWith(
-    caches.match(event.request)
-    .then((response)=>{
-      if(response){
+    caches.open(cacheName).then(function(cache) {
+      return fetch(event.request).then(function(response) {
+        cache.put(event.request, response.clone());
         return response;
-      }
-      else{
-        return fetch(event.request) // response of requests
-        .then((res)=>{
-          return caches.open('dynamic') //create dynamic cache
-          .then((cache)=>{
-            cache.put(event.request.url,res.clone());
-            return res;
-          })
-        })
-      }
+      });
     })
-    .catch(()=>{})
-  )
+  );
+});
+
+
+
+
+self.addEventListener('fetch', function(event) {
+  event.respondWith(
+    fetch(event.request).catch(function() {
+      return caches.match(event.request);
+    })
+  );
 });

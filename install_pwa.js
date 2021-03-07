@@ -15,6 +15,9 @@ if (pwa_enabled){
 	    });
 	  });
 	}
+	else{
+		console.log("Service workers not supported!");
+	}
 
 
 
