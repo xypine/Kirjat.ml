@@ -122,7 +122,12 @@
 	var queryDone = true;
 	var firstQuery = true;
 	function queryFull(callback) {
-		if (sa_event) sa_event("query");
+		try{
+			sa_event("query");
+		}
+		catch(err){
+			console.log("Analytics push failed");
+		}
 		queryDone = false;
 		fillLink();
 		document.getElementById("results_original").innerHTML = "";
