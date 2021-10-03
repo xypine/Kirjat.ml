@@ -479,7 +479,7 @@
 		return template.content.firstChild;
 	}
 	function linkClean(link){
-		return link.replaceAll("ä", "_a_").replaceAll("ö", "_o_").replaceAll("å", "_e_").replaceAll("’", "_c_").replaceAll("\'", "_c_").replaceAll("…", "...");
+		return link.replaceAll("ä", "_a_").replaceAll("ö", "_o_").replaceAll("å", "_e_").replaceAll("’", "_c_").replaceAll("\'", "_c_").replaceAll("…", "...").replaceAll("–", "-");
 	}
 	function linkUnClean(link){
 		return link.replaceAll("_a_", "ä").replaceAll("_o_", "ö").replaceAll("_e_", "å").replaceAll("_c_", "\'");
