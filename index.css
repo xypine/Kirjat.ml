@@ -24,7 +24,7 @@ body {
 }
 .searchbox{
 	margin: auto;
-	width: 60%;
+	width: 100%;
 }
 .tiptext{
 	width: 60%;
@@ -79,7 +79,7 @@ body {
 }
 
 .jf-textarea {
-	width: 60%;
+	width: 100%;
 }
 
 .jf-card {
