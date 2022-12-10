@@ -1,4 +1,4 @@
 # Kirjat.ml
-A simple frontend for the [kirjat.ml-api](https://github.com/jonnelafin/Kirjat.ml-api)
+A simple frontend for the [kirjat.ml-api](https://github.com/xypine/Kirjat.ml-api). Preceded by https://github.com/xypine/kirjat
 
-Currently running @ [kirjat.ml](https://kirjat.ml)
+Might still be running @ [kirjat.ml](https://kirjat.ml)
